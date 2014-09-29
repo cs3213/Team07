@@ -1,0 +1,14 @@
+{
+    "name": "cs3213-visualIDE",
+    "author": "CS3213 AY14/15 Semester 1 Team 7",
+    "description": "Visual IDE for CS3213 - Software Systems Design Assignments 3 & 4",
+    "private": "true",
+
+    "dependencies": {
+        "bookshelf": "0.7.x",
+        "sqlite3": "2.2.x",
+        "passport": "0.2.x",
+        "express": "4.9.x",
+        "moment": "2.4.x"
+    }
+}

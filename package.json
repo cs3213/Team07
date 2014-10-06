@@ -5,10 +5,9 @@
     "private": "true",
 
     "dependencies": {
-        "bookshelf": "0.7.x",
-        "sqlite3": "2.2.x",
         "passport": "0.2.x",
         "express": "4.9.x",
-        "moment": "2.4.x"
+        "moment": "2.4.x",
+        "mongoose": "3.8.x"
     }
 }

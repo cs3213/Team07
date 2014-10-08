@@ -1,0 +1,12 @@
+{
+  "name": "cs3213-visualIDE-client",
+  "version": "0.0.1",
+  "main": "public/app.js",
+  "dependencies": {
+    "ember": "~1.7.0",
+    "ember-data-shim": "~0.0.14",
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.2.0"
+  },
+  "overrides": {}
+}

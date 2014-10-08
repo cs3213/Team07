@@ -1,13 +1,22 @@
 {
-    "name": "cs3213-visualIDE",
-    "author": "CS3213 AY14/15 Semester 1 Team 7",
-    "description": "Visual IDE for CS3213 - Software Systems Design Assignments 3 & 4",
-    "private": "true",
-
-    "dependencies": {
-        "passport": "0.2.x",
-        "express": "4.9.x",
-        "moment": "2.4.x",
-        "mongoose": "3.8.x"
-    }
+  "name": "cs3213-visualIDE",
+  "author": "CS3213 AY14/15 Semester 1 Team 7",
+  "description": "Visual IDE for CS3213 - Software Systems Design Assignments 3 & 4",
+  "private": "true",
+  "scripts": {
+    "start": "brunch watch --server"
+  },
+  "dependencies": {
+    "brunch": "~1.7.8",
+    "auto-reload-brunch": ">= 1.0 < 1.8",
+    "clean-css-brunch": ">= 1.0 < 1.8",
+    "css-brunch": ">= 1.0 < 1.8",
+    "ember-handlebars-brunch": "^1.2.0",
+    "express": "4.9.x",
+    "javascript-brunch": ">= 1.0 < 1.8",
+    "moment": "2.4.x",
+    "mongoose": "3.8.x",
+    "passport": "0.2.x",
+    "uglify-js-brunch": ">= 1.0 < 1.8"
+  }
 }

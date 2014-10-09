@@ -48,7 +48,7 @@ node_modules
 bower_components
 
 # Compiled files in app folder
-public/app.*
+public/
 
 # Users Environment Variables
 .lock-wscript

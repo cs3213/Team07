@@ -1,5 +1,3 @@
 App.Router.map(function() {
-    return this.resource('ide', {
-        path: '/'
-    }, function() {});
+    //this.resource('application', { path: '/' }, function() {});
 });

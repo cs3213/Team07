@@ -1,5 +1,3 @@
-var ApplicationController = Ember.Controller.extend({
-
+App.ApplicationController = Ember.ObjectController.extend({
+    actions: {}
 });
-
-export default ApplicationController;

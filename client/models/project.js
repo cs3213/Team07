@@ -1,6 +1,6 @@
 var Project = DS.Model.extend({
     uuid: DS.attr('string'),
-    title: DS.attr('title', { defaultValue: '' }),
+    title: DS.attr('title', { defaultValue: 'Untitled Project' }),
     author: DS.belongsTo('user', { async: true }),
     created_at: DS.attr('moment-date'),
     updated_at: DS.attr('moment-date'),

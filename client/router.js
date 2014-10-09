@@ -1,3 +1,3 @@
 App.Router.map(function() {
-    //this.resource('application', { path: '/' }, function() {});
+    this.resource('project', { path: '/' }, function() {});
 });

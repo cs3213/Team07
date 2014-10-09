@@ -1,0 +1,18 @@
+{{!Dissect them into views / components}}
+<main id="visual-main" role="main" class="container-fluid">
+    <div class="row">
+        <div class="col-lg-5">
+          {{view App.StageView}}
+          {{view App.MediaLibraryView}}
+        </div>
+        <!-- /.panel -->
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-3">
+          {{view App.BlockLibraryView }}
+        </div>
+        <!-- /.col-lg-2 -->
+        <div class="col-lg-4">
+          {{view App.ScriptView }}
+        </div>
+        <!-- /.row -->
+</main>

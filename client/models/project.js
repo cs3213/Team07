@@ -5,6 +5,6 @@ var Project = DS.Model.extend({
     created_at: DS.attr('moment-date'),
     updated_at: DS.attr('moment-date'),
     // # the following are embedded documents in MongoDB
-    blocks: DS.hasMany('block', { async: true }),
+    script: DS.belongsTo('script', { async: true }),
     stage: DS.belongsTo('stage', { async: true })
 });

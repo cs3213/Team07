@@ -76,6 +76,8 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/save', function(req, res){
+	userEmail = req.user.emails[0].value;
+	// Project.save(userEmail, {'block': 'test', 'script': ['a', 'b', 'c']}, null);
 	res.send('you are in save');
 });
 

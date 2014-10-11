@@ -19,6 +19,7 @@ exports.config =
                     'bower_components/boostrap/dist/js/bootstrap.js'
                 ]
         stylesheets:
+            defaultExtension: 'css'
             joinTo: 'app.css': /^(client|vendor|bower_components)/
         templates:
             precompile: true

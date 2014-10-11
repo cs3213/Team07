@@ -7,3 +7,25 @@
     margin-top: 1em;
     margin-bottom: 1em;
 }
+.stage-canvas {
+    width: 470px;
+    height: 320px;
+}
+.background-library {
+    margin: 0;
+    padding: 0;
+}
+.background-library li {
+    float: left;
+    list-style: none;
+    margin: 0.85em;
+}
+.background-library li a {
+    display: block;
+    width: 64px;
+    height: 64px;
+}
+.background-library li .is-selected {
+    border: 4px solid #ff9900;
+    padding: 10px;
+}

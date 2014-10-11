@@ -1,20 +1,16 @@
-<div class="panel panel-default">
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="active">
-      <a href="#">Sprites</a>
-      <!-- /.panel-heading -->
-      <div class="panel-body">
-        <div id="white-space"></div>
-      </div>
-      <!-- /.panel-body -->
-    </li>
-    <li>
-      <a href="#">Backgrounds</a>
-      <!-- /.panel-heading -->
-      <div class="panel-body">
-        <div id="white-space"></div>
-      </div>
-      <!-- /.panel-body -->
-    </li>
-  </ul>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#backgrounds" role="tab" data-toggle="tab">Backgrounds</a></li>
+  <li><a href="#sprites" role="tab" data-toggle="tab">Sprites</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="backgrounds">
+    <div class="panel-body">
+      {{render 'background'}}
+    </div>
+  </div>
+  <div class="tab-pane" id="sprites">
+    <div class="panel-body">
+      Sprites here
+    </div>
+  </div>
 </div>

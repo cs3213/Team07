@@ -5,7 +5,7 @@ App.ProjectRoute = Ember.Route.extend({
             stage: {
                 background: 'school.png',
                 character: {
-                    costume: 'cat1-sprite@2x.png',
+                    costume: 'Warrior.gif',
                     x: 240,
                     y: 150
                 }

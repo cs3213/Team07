@@ -7,11 +7,11 @@ App.BackgroundView = Ember.CollectionView.extend({
 
         isSelected: function() {
             return this.get('content') == this.get('controller.selected');
-        }.property('isSelected'),
+        }.property(),
 
         backgroundStyle: function() {
             return 'background: url(/background/' + this.get('content') + ') repeat center center';
-        }.property('backgroundStyle'),
+        }.property(),
 
         // Find a better way to the CSS class with selected property...
         click: function(evt) {

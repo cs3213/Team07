@@ -5,13 +5,13 @@ App.BlockLibraryView = Ember.View.extend({
     tagName: 'section',
     
     /**
-     * Called when the element of the view has been inserted into the DOM or after the view was re-rendered.
-     * Override this function to do any set up that requires an element in the document body.
+     * Called when the element of the view has been inserted into the DOM.
      */
     didInsertElement: function() {
         this.$().find('li').draggable({
             helper: 'clone',
-            revert: 'invalid'
+            revert: 'invalid',
+            connectToSortable: '.script-area'
         });
     },
 
@@ -19,9 +19,11 @@ App.BlockLibraryView = Ember.View.extend({
         content: function() {
             return this.get('parentView.defaultBlocks');
         }.property(),
+
         tagName: 'ul',
-        classNames: ['block-library', 'clearfix'],
+        classNames: ['block-library', 'block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
+            attributeBindings: ['content:data-type', 'setting:data-setting'],
             templateName: function() {
                 return 'blocks/' + this.get('content');
             }.property()

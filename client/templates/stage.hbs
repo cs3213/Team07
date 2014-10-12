@@ -3,14 +3,14 @@
   <i class="fa fa-caret-square-o-right fa-fw"></i> Stage
   <div class="pull-right">
     <div class="btn-group">
-      <button {{action 'play'}} type="button" class="btn btn-xs btn-success">Play<i class="fa fa-play fa-fw"></i></button>
-      <button {{action 'stop'}} type="button" class="btn btn-xs btn-danger">Stop<i class="fa fa-stop fa-fw"></i></button>
+      <button id="play-btn" {{bind-attr disabled='isPlaying'}} {{action 'play'}} type="button" class="btn btn-xs btn-success">Play<i class="fa fa-play fa-fw"></i></button>
+      <button id="stop-btn" {{bind-attr disabled='isStopped'}} {{action 'stop'}} type="button" class="btn btn-xs btn-danger">Stop<i class="fa fa-stop fa-fw"></i></button>
     </div>
   </div>
 </div>
 <!-- /.panel-heading -->
 <div class="panel-body">
-  <canvas id="stage-canvas" class="stage-canvas" {{bind-attr style=view.backgroundStyle}}>
+  <canvas id="stage-canvas" class="stage-canvas" width="470" height="320" {{bind-attr style=view.backgroundStyle}}>
   </canvas>
 </div>
 <!-- /.panel-body -->

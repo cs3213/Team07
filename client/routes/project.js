@@ -6,8 +6,9 @@ App.ProjectRoute = Ember.Route.extend({
                 background: 'school.png',
                 character: {
                     costume: 'Warrior.gif',
-                    x: 240,
-                    y: 150
+                    x: 220,
+                    y: 130,
+                    visible: true
                 }
             },
             script: {

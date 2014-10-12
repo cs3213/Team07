@@ -7,10 +7,6 @@
     margin-top: 1em;
     margin-bottom: 1em;
 }
-.stage-canvas {
-    width: 470px;
-    height: 320px;
-}
 .background-library, .sprite-library, .block-list {
     margin: 0 auto;
     padding: 0;

@@ -1,8 +1,19 @@
 App.BlockLibraryView = Ember.View.extend({
-    defaultBlocks: ['setX', 'setY', 'showCharacter', 'hideCharacter', 'changeCostume', 'changeBackground'],
+    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter'],
 
     templateName: 'blockLibrary',
     tagName: 'section',
+    
+    /**
+     * Called when the element of the view has been inserted into the DOM or after the view was re-rendered.
+     * Override this function to do any set up that requires an element in the document body.
+     */
+    didInsertElement: function() {
+        this.$().find('li').draggable({
+            helper: 'clone',
+            revert: 'invalid'
+        });
+    },
 
     libraryView: Ember.CollectionView.extend({
         content: function() {

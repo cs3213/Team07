@@ -9,21 +9,7 @@ App.ScriptView = Ember.View.extend({
         var controller = this.get('controller');
         this.$('.script-area').sortable({
             placeholder: 'ui-state-highlight',
-            update: function(event, ui) {
-                var scripts = {};
 
-                $(this).find('li').each(function(index) {
-                    scripts[index] = {
-                        'idx': index,
-                        'type': $(this).data('type'),
-                        'setting': $(this).data('setting')
-                    };
-                });
-
-                console.log(scripts);
-
-                // @TODO: Update model of script changes
-            },
             receive: function(event, ui) {
                 sortableIn = 1;
             },
@@ -37,11 +23,33 @@ App.ScriptView = Ember.View.extend({
                 if (sortableIn === 0)
                     ui.item.remove();
             }
+        }).on('sortupdate', function(event, ui) {
+            var scripts = {};
+
+            $(this).find('li').each(function(index) {
+                scripts[index] = {
+                    'idx': index,
+                    'type': $(this).data('type'),
+                    'setting': $(this).data('setting')
+                };
+            });
+
+            // Update model of script changes
+            console.log(scripts);
+            controller.set('model.script.blocks', scripts);
+        });
+
+        // Force change when setting changes
+        this.$('.script-area').on('change', 'li input', function(event) {
+            $(this).closest('li').data('setting', $(this).val());
+            // Trigger update from sortable
+            $(this).closest('.script-area').trigger('sortupdate');
         });
     },
 
     scriptListView: Ember.CollectionView.extend({
         content: function() {
+
         }.property(),
 
         tagName: 'ul',

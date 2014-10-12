@@ -16,6 +16,14 @@ App.BlockLibraryView = Ember.View.extend({
     },
 
     libraryView: Ember.CollectionView.extend({
+        defaultValues: {
+            'setX': 0,
+            'setY': 0,
+            'move': 10,
+            'showCharacter': 0,
+            'hideCharacter': 0
+        },
+
         content: function() {
             return this.get('parentView.defaultBlocks');
         }.property(),
@@ -24,8 +32,14 @@ App.BlockLibraryView = Ember.View.extend({
         classNames: ['block-library', 'block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
             attributeBindings: ['content:data-type', 'setting:data-setting'],
+
             templateName: function() {
                 return 'blocks/' + this.get('content');
+            }.property(),
+
+            // Create default settings for specific blocks
+            setting: function() {
+                return this.get('parentView.defaultValues.' + this.get('content'));
             }.property()
         })
     })

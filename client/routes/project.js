@@ -9,6 +9,9 @@ App.ProjectRoute = Ember.Route.extend({
                     x: 240,
                     y: 150
                 }
+            },
+            script: {
+                blocks: []
             }
         };
     }

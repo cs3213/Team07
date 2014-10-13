@@ -77,12 +77,24 @@ app.get('/logout', function(req, res){
 
 app.get('/save', function(req, res){
 	userEmail = req.user.emails[0].value;
-	// Project.save(userEmail, {'block': 'test', 'script': ['a', 'b', 'c']}, null);
-	res.send('you are in save');
+  projectId = req.param('projectId');
+  projectJson = req.param('projectJson');
+  response = Project.save(userEmail, projectId, projectJson);
+	res.send(response);
 });
 
 app.get('/load', function(req, res){
-	res.send('you are in load');
+  projectId = req.param('projectId');
+	Project.loadById(projectId, function(project){
+    res.send(project);
+  });
+});
+
+app.get('/loadAll', function(req, res){
+  userEmail = req.user.emails[0].value;
+  Project.loadAllByUser(userEmail, function(projects){
+    res.send(projects);
+  });
 });
 
 

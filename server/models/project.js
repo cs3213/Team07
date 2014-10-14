@@ -12,12 +12,12 @@ this.save = function(userEmail, projectId, projectJson)
 		if(project == null && !err) {
 			var saveProject = new Project({'userEmail': userEmail, 'project': projectJson});
 			saveProject.save(function(err, done){
-				return done;
+				return done._id;
 			});
 		}
 		else {
 			Project.update({'_id': projectId}, {$set: {'lastSaved': new Date(), 'project': projectJson}}, function(err, updated){
-				return updated;
+				return updated > 0 ? true : false;
 			});
 		}
 	});
@@ -30,7 +30,7 @@ this.loadAllByUser = function(userEmail, callback)
 			return callback(projects);
 		}
 		else{
-			return callback(null);
+			return callback([]);
 		}
 	});
 }
@@ -42,7 +42,7 @@ this.loadById = function(projectId, callback)
 			return callback(project);
 		}
 		else{
-			return callback(null);
+			return callback({});
 		}
 	});
 }

@@ -65,10 +65,19 @@ app.post('/login', function(req, res){
 
 app.get('/auth/google', passport.authenticate('google'));
 
-app.get('/auth/google/callback', 
-	passport.authenticate('google', 
-		{ successRedirect: '/',
-		failureRedirect: '/login' }));
+app.get('/auth/google/callback', function(req, res) {
+  passport.authenticate('google', function(err, user, info) {
+    if(err){
+      return res.send({error: 'Error while logging in. Please try again later.'});
+    }
+
+    if(user)
+    {
+      return res.send(user);
+    }
+  })(req, res);
+});
+
 
 app.get('/logout', function(req, res){
 	req.logout();

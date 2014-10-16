@@ -15,11 +15,35 @@ App.ScriptView = Ember.View.extend({
      */
     didInsertElement: function() {
         var controller = this.get('controller');
+        var view = this;
         this.$('.ui-sortable').sortable({
             placeholder: 'ui-state-highlight',
 
             receive: function(event, ui) {
                 sortableIn = 1;
+
+                if ($(this).find('div').hasClass('control-block')) {
+                    $(this).find('.control-list').sortable({
+                        placeholder: 'ui-state-highlight',
+                        receive: function(event, ui) {
+                            // Do not accept more loops!
+                            sortableIn = 1;
+                        },
+                        over: function(event, ui) {
+                            sortableIn = 1;
+                        },
+                        out: function(event, ui) {
+                            sortableIn = 0;
+                        },
+                        beforeStop: function(event, ui) {
+                            if (sortableIn === 0) {
+                                ui.item.remove();
+                            }
+                        }
+                    }).on('sortupdate', function(event, ui) {
+                        view.$('ui-sortable').trigger('sortupdate');
+                    });
+                }
             },
             over: function(event, ui) {
                 sortableIn = 1;
@@ -28,25 +52,37 @@ App.ScriptView = Ember.View.extend({
                 sortableIn = 0;
             },
             beforeStop: function(event, ui) {
-                if (sortableIn === 0)
+                if (sortableIn === 0) {
                     ui.item.remove();
+                }
             }
         }).on('sortupdate', function(event, ui) {
-            var scripts = {};
+            var computeScriptModel = function(list) {
+                var scripts = {};
+                $(list).find('> li').each(function(index) {
+                    var block = {
+                        'idx': index,
+                        'type': $(this).data('type'),
+                        'setting': $(this).data('setting')
+                    };
+                    if ($(this).find('div').hasClass('control-block')) {
+                        block.scripts = computeScriptModel($(this).find('.control-list'));
+                    }
+                    scripts[index] = block;
+                    $(this).attr('data-idx', index);
+                });
+                return scripts;
+            };
 
-            $(this).find('li').each(function(index) {
-                scripts[index] = {
-                    'idx': index,
-                    'type': $(this).data('type'),
-                    'setting': $(this).data('setting')
-                };
-                $(this).attr('data-idx', index);
-            });
+            var scripts = computeScriptModel(this);
 
             // Update model of script changes
-            console.log(scripts);
+            Ember.Logger.log(scripts);
+            $('.script-area input, .script-area select').removeAttr('disabled');
             controller.set('model.script.blocks', scripts);
         });
+
+        this.$('.script-area input, .script-area select').removeAttr('disabled');
 
         // Force change when setting changes
         this.$('.script-area').on('change', 'li input, li select', function(event) {
@@ -54,6 +90,10 @@ App.ScriptView = Ember.View.extend({
             // Trigger update from sortable
             $(this).closest('.script-area').trigger('sortupdate');
         });
+    },
+
+    willDestroyElement: function() {
+        this.$('.ui-sortable').sortable('destroy');
     },
 
     scriptListView: Ember.CollectionView.extend({

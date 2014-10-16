@@ -1,5 +1,5 @@
 App.BlockLibraryView = Ember.View.extend({
-    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume'],
+    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume', 'repeat'],
 
     templateName: 'blockLibrary',
     tagName: 'section',
@@ -13,6 +13,11 @@ App.BlockLibraryView = Ember.View.extend({
             revert: 'invalid',
             connectToSortable: '.ui-sortable'
         });
+        this.$().find('input, select').attr('disabled', 'disabled');
+    },
+
+    willDestroyElement: function() {
+        this.$().find('li').draggable('destroy');
     },
 
     libraryView: Ember.CollectionView.extend({
@@ -23,7 +28,8 @@ App.BlockLibraryView = Ember.View.extend({
             'showCharacter': 0,
             'hideCharacter': 0,
             'changeBackground': 'geometry2.png',
-            'changeCostume': 'Bard.gif'
+            'changeCostume': 'Bard.gif',
+            'repeat': 10
         },
 
         content: function() {

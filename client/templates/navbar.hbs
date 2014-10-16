@@ -9,7 +9,11 @@
             <li><a><i class="fa fa-stop fa-fw"></i></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <button type="button" id="googleLogin" class="btn btn-sm btn-danger" {{bind-attr disabled='isLoggedIn'}} {{action 'login'}}> Google Login</button>
+        {{#unless isLoggedIn}}
+            <button type="button" id="googleLogin" class="btn btn-sm btn-danger" {{action 'login'}}> Google Login</button>
+        {{else}}
+            <button type="button" id="googleLogin" class="btn btn-sm btn-danger" {{action 'logout'}}> Logout</button>
+        {{/unless}}
         </ul>
     </div>
 </nav>

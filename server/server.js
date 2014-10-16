@@ -59,29 +59,49 @@ app.get('/app.css', function(req, res) {
 });
 
 // @TODO: Declare other API methods here
-app.post('/login', function(req, res){
-	res.send('you are in login');
+
+app.get('/user', function(req, res){
+  console.log(req.user);
+  if(req.isAuthenticated()){
+    res.json({
+      authenticated:true, 
+      user: req.user
+    });
+  }
+  else {
+    res.json({
+      authenticated:false, 
+      user: null
+    })
+  }
 });
 
 app.get('/auth/google', passport.authenticate('google'));
 
-app.get('/auth/google/callback', function(req, res) {
+app.get('/auth/google/callback', function(req, res, next) {
   passport.authenticate('google', function(err, user, info) {
-    if(err){
-      return res.send({error: 'Error while logging in. Please try again later.'});
+    if (err) { 
+      return next(err); 
     }
-
-    if(user)
-    {
-      return res.send(user);
+    if (!user) { 
+      return res.json({error: 'Error while logging in. Please try again later.'}); 
     }
-  })(req, res);
+    req.logIn(user, function(err) {
+      if (err) { 
+        return next(err); 
+      }
+      
+      return res.json(user);
+    });
+  })(req, res, next);
 });
 
 
+
 app.get('/logout', function(req, res){
+  user = req.user;
 	req.logout();
-  	res.redirect('/');
+  res.json(user)
 });
 
 app.get('/save', function(req, res){
@@ -89,20 +109,20 @@ app.get('/save', function(req, res){
   projectId = req.param('projectId');
   projectJson = req.param('projectJson');
   response = Project.save(userEmail, projectId, projectJson);
-	res.send(response);
+	res.json(response);
 });
 
 app.get('/load', function(req, res){
   projectId = req.param('projectId');
 	Project.loadById(projectId, function(project){
-    res.send(project);
+    res.json(project);
   });
 });
 
 app.get('/loadAll', function(req, res){
   userEmail = req.user.emails[0].value;
   Project.loadAllByUser(userEmail, function(projects){
-    res.send(projects);
+    res.json(projects);
   });
 });
 

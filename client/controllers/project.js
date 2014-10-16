@@ -1,9 +1,13 @@
 App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
     needs: ['background', 'sprite'],
+
     isPlaying: false,
     isStopped: Ember.computed.not('isPlaying'),
 
-    playingBlock: -1,
+    delay: 1000,
+
+    playTimeout: null,
+    playingBlock: null,
 
     actions: {
         play: function() {
@@ -16,31 +20,57 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
 
             var controller = this,
                 blocks = this.get('script.blocks'),
-                length = Object.keys(blocks).length;
+                length = Object.keys(blocks).length,
+                blockStack = [],
+                blockLimits = [];
 
+            function playBlock() {
+                var currentIdx = blockStack[blockStack.length - 1],
+                    timeout;
 
-            // Stop if there's nothing on the script block.
-            if (length === 0) {
-                setTimeout(function() {
-                    controller.send('stop');
-                }, 1000);
-                return;
-            }
+                // Get the current block.
+                var b = blocks;
+                for (var i = 0; i < blockStack.length; i++) {
+                    if (i === 0)
+                        b = blockStack[i] >= length ? null : blocks[blockStack[i]];
+                    else
+                        b = blockStack[i] >= Object.keys(b.children).length ? null : b.children[blockStack[i]];
+                }
 
-            $.each(blocks, function(index, block) {
-                setTimeout(function() {
-                    //console.log(block);
-                    controller.set('playingBlock', index);
+                if (b === null) {
+                    // Reached the end of the level.
+                    if (blockStack.length <= 1) {
+                        setTimeout(function() { controller.send('stop'); }, controller.get('delay'));
+                    } else {
+                        blockStack.pop();
+                        // move out to the previous level and continue if limit is reached
+                        var threshold = blockLimits.pop();
+                        //console.log(threshold);
+                        if (threshold <= 0) {
+                            currentIdx = blockStack.pop();
+                            blockStack.push(currentIdx + 1);
+                        } else {
+                            blockLimits.push(threshold - 1);
+                        }
+                        
+                        timeout = setTimeout(playBlock, controller.get('delay'));
+                        controller.set('playTimeout', timeout);
+                    }
+                } else {
+                    // play the current block
+                    // console.log(b);
+                    
+                    controller.set('playingBlock', 'block-' + b.level + '-' + b.idx);
 
-                    switch (block.type) {
+                    switch (b.type) {
                         case 'setX':
-                            controller.send('setCharacterX', block.setting);
+                            controller.send('setCharacterX', b.setting);
                             break;
                         case 'setY':
-                            controller.send('setCharacterY', block.setting);
+                            controller.send('setCharacterY', b.setting);
                             break;
                         case 'move':
-                            controller.send('setCharacterX', parseInt(controller.get('stage.character.x'), 10) + parseInt(block.setting, 10));
+                            controller.send('setCharacterX', parseInt(controller.get('stage.character.x'), 10) + parseInt(b.setting, 10));
                             break;
                         case 'showCharacter':
                             controller.send('setCharacterVisible', true);
@@ -49,24 +79,41 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
                             controller.send('setCharacterVisible', false);
                             break;
                         case 'changeBackground':
-                            controller.send('selectBackground', block.setting);
+                            controller.send('selectBackground', b.setting);
                             break;
                         case 'changeCostume':
-                            controller.send('selectCostume', block.setting);
+                            controller.send('selectCostume', b.setting);
                             break;
                     }
-                }, 1000 * index);
-            });
 
-            // End the script
-            setTimeout(function() {
-                controller.send('stop');
-            }, length * 1000);
+                    // if there's another level we push a block in as well
+                    if (typeof b.children !== 'undefined' && Object.keys(b.children).length > 0) {
+                        blockStack.push(0);
+                        if (blockLimits.length !== blockStack.length - 1)
+                            blockLimits.push(parseInt(b.setting - 1, 10));
+                    } else {
+                        // push the next block into the stack
+                        blockStack.pop();
+                        blockStack.push(currentIdx + 1);
+                    }
+
+                    // prep for next block
+                    timeout = setTimeout(playBlock, controller.get('delay'));
+                    controller.set('playTimeout', timeout);
+                }
+            }
+
+            // Push the first block into the stack.
+            blockStack.push(0);
+            playBlock();
         },
         stop: function() {
             Ember.Logger.log('Stopping script.');
-            this.set('playingBlock', -1);
+            this.set('playingBlock', null);
             this.set('isPlaying', false);
+
+            // Clear timeouts
+            clearTimeout(this.get('playTimeout'));
 
             // Reset
             this.send('selectBackground', this.get('startBackground'));

@@ -20,13 +20,14 @@ App.ApplicationController = Ember.ObjectController.extend({
             	controller.send('getSession');
             });
         },
-        'getSession':function(){
-        	var controller = this;
-        	$.getJSON('/user').done(function(user){
-				controller.set('isLoggedIn', user.authenticated);
-			}).error(function(){
-				Ember.Logger.log('error occur');
-			});
-        }
-    }
+
+	    getSession: function() {
+	        var controller = this;
+	        $.getJSON('/user').done(function(user) {
+	            controller.set('isLoggedIn', user.authenticated);
+	        }).error(function(){
+	            Ember.Logger.log('error occur');
+	        });
+	    }
+	}
 });

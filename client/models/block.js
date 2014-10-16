@@ -3,5 +3,5 @@ var Block = DS.Model.extend({
     idx: DS.attr('number'),
     type: DS.attr('string'),
     setting: DS.attr(),
-    script: DS.belongsTo('script')
+    children: DS.hasMany('block', { async: true }),
 });

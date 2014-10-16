@@ -4,10 +4,10 @@ App.ScriptView = Ember.View.extend({
 
     blockPlayed: function() {
         // Add CSS class to played block
-        var idx = this.get('controller.playingBlock');
+        var id = this.get('controller.playingBlock');
         this.$('.script-area li').removeClass('is-playing');
 
-        if (idx >= 0) $(this.$('.script-area li').get(idx)).addClass('is-playing');
+        if (id) this.$('#' + id).addClass('is-playing');
     }.observes('controller.playingBlock'),
 
     /**
@@ -57,24 +57,25 @@ App.ScriptView = Ember.View.extend({
                 }
             }
         }).on('sortupdate', function(event, ui) {
-            var computeScriptModel = function(list) {
+            var computeScriptModel = function(list, level) {
                 var scripts = {};
                 $(list).find('> li').each(function(index) {
                     var block = {
                         'idx': index,
                         'type': $(this).data('type'),
-                        'setting': $(this).data('setting')
+                        'setting': $(this).data('setting'),
+                        'level': level
                     };
                     if ($(this).find('div').hasClass('control-block')) {
-                        block.scripts = computeScriptModel($(this).find('.control-list'));
+                        block.children = computeScriptModel($(this).find('.control-list'), level + 1);
                     }
                     scripts[index] = block;
-                    $(this).attr('data-idx', index);
+                    $(this).attr('id', 'block-' + level + '-' + index);
                 });
                 return scripts;
             };
 
-            var scripts = computeScriptModel(this);
+            var scripts = computeScriptModel(this, 0);
 
             // Update model of script changes
             Ember.Logger.log(scripts);

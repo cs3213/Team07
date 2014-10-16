@@ -44,6 +44,9 @@
     padding: 1px;
     border: none;
 }
+.block-list li .bg-warning {
+    height: 45px;
+}
 .script-area-container {
     min-height: 320px;
     background: #f5f5f5;

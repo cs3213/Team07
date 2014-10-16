@@ -1,5 +1,5 @@
 App.BlockLibraryView = Ember.View.extend({
-    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter'],
+    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume'],
 
     templateName: 'blockLibrary',
     tagName: 'section',
@@ -11,7 +11,7 @@ App.BlockLibraryView = Ember.View.extend({
         this.$().find('li').draggable({
             helper: 'clone',
             revert: 'invalid',
-            connectToSortable: '.script-area'
+            connectToSortable: '.ui-sortable'
         });
     },
 
@@ -21,7 +21,9 @@ App.BlockLibraryView = Ember.View.extend({
             'setY': 0,
             'move': 10,
             'showCharacter': 0,
-            'hideCharacter': 0
+            'hideCharacter': 0,
+            'changeBackground': 'geometry2.png',
+            'changeCostume': 'Bard.gif'
         },
 
         content: function() {
@@ -32,6 +34,27 @@ App.BlockLibraryView = Ember.View.extend({
         classNames: ['block-library', 'block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
             attributeBindings: ['content:data-type', 'setting:data-setting'],
+
+            // @TODO: Move this to server call
+            backgrounds: [
+                { name: 'geometry', value: 'geometry2.png' },
+                { name: 'restaurant', value: 'restaurant_icons.png' },
+                { name: 'school', value: 'school.png' },
+                { name: 'skulls', value: 'skulls.png' },
+                { name: 'small steps', value: 'small_steps.png' },
+            ],
+
+            costumes: [
+                { name: 'Bard', value: 'Bard.gif' },
+                { name: 'Black Mage', value: 'BlackMage.gif' },
+                { name: 'Dragoon', value: 'Dragoon.gif' },
+                { name: 'Monk', value: 'Monk.gif' },
+                { name: 'Ninja', value: 'Ninja.gif' },
+                { name: 'Red Mage', value: 'RedMage.gif' },
+                { name: 'Summoner', value: 'Summoner.gif' },
+                { name: 'Warrior', value: 'Warrior.gif' },
+                { name: 'WhiteMage', value: 'White Mage.gif' },
+            ],
 
             templateName: function() {
                 return 'blocks/' + this.get('content');

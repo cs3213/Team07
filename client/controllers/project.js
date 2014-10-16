@@ -1,4 +1,5 @@
 App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
+    needs: ['background', 'sprite'],
     isPlaying: false,
     isStopped: Ember.computed.not('isPlaying'),
 
@@ -9,6 +10,10 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
             Ember.Logger.log('Playing script.');
 
             this.set('isPlaying', true);
+
+            this.set('startBackground', this.get('stage.background'));
+            this.set('startCostume', this.get('stage.character.costume'));
+
             var controller = this,
                 blocks = this.get('script.blocks'),
                 length = Object.keys(blocks).length;
@@ -43,6 +48,12 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
                         case 'hideCharacter':
                             controller.send('setCharacterVisible', false);
                             break;
+                        case 'changeBackground':
+                            controller.send('selectBackground', block.setting);
+                            break;
+                        case 'changeCostume':
+                            controller.send('selectCostume', block.setting);
+                            break;
                     }
                 }, 1000 * index);
             });
@@ -56,6 +67,11 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
             Ember.Logger.log('Stopping script.');
             this.set('playingBlock', -1);
             this.set('isPlaying', false);
+
+            // Reset
+            this.send('selectBackground', this.get('startBackground'));
+            this.send('selectCostume', this.get('startCostume'));
+            this.send('setCharacterVisible', true);
         },
         
         selectBackground: function(background) {

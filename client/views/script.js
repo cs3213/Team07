@@ -15,7 +15,7 @@ App.ScriptView = Ember.View.extend({
      */
     didInsertElement: function() {
         var controller = this.get('controller');
-        this.$('.script-area').sortable({
+        this.$('.ui-sortable').sortable({
             placeholder: 'ui-state-highlight',
 
             receive: function(event, ui) {
@@ -49,17 +49,11 @@ App.ScriptView = Ember.View.extend({
         });
 
         // Force change when setting changes
-        this.$('.script-area').on('change', 'li input', function(event) {
+        this.$('.script-area').on('change', 'li input, li select', function(event) {
             $(this).closest('li').data('setting', $(this).val());
             // Trigger update from sortable
             $(this).closest('.script-area').trigger('sortupdate');
         });
-
-        // Capture when controller triggers an event stating that it is playing a block
-        controller.on('playedBlock', this, function(event) {
-            console.log(event);
-        });
-
     },
 
     scriptListView: Ember.CollectionView.extend({
@@ -68,7 +62,7 @@ App.ScriptView = Ember.View.extend({
         }.property(),
 
         tagName: 'ul',
-        classNames: ['script-area', 'block-list', 'clearfix'],
+        classNames: ['ui-sortable', 'script-area', 'block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
             attributeBindings: ['content:data-type', 'setting:data-setting'],
 

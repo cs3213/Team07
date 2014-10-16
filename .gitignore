@@ -8,6 +8,7 @@ Icon
 
 # Thumbnails
 ._*
+Thumbs.db
 
 # Files that might appear on external disk
 .Spotlight-V100
@@ -55,3 +56,6 @@ public/
 
 # Application user-config
 config.json
+
+# Sublime-Text project
+*.sublime-*

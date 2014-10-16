@@ -2,6 +2,14 @@ App.ScriptView = Ember.View.extend({
     templateName: 'script',
     tagName: 'section',
 
+    blockPlayed: function() {
+        // Add CSS class to played block
+        var idx = this.get('controller.playingBlock');
+        this.$('.script-area li').removeClass('is-playing');
+
+        if (idx >= 0) $(this.$('.script-area li').get(idx)).addClass('is-playing');
+    }.observes('controller.playingBlock'),
+
     /**
      * Called when the element of the view has been inserted into the DOM.
      */
@@ -32,6 +40,7 @@ App.ScriptView = Ember.View.extend({
                     'type': $(this).data('type'),
                     'setting': $(this).data('setting')
                 };
+                $(this).attr('data-idx', index);
             });
 
             // Update model of script changes
@@ -45,6 +54,12 @@ App.ScriptView = Ember.View.extend({
             // Trigger update from sortable
             $(this).closest('.script-area').trigger('sortupdate');
         });
+
+        // Capture when controller triggers an event stating that it is playing a block
+        controller.on('playedBlock', this, function(event) {
+            console.log(event);
+        });
+
     },
 
     scriptListView: Ember.CollectionView.extend({
@@ -56,6 +71,7 @@ App.ScriptView = Ember.View.extend({
         classNames: ['script-area', 'block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
             attributeBindings: ['content:data-type', 'setting:data-setting'],
+
             templateName: function() {
                 return 'blocks/' + this.get('content.type');
             }

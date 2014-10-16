@@ -4,7 +4,7 @@
   "description": "Visual IDE for CS3213 - Software Systems Design Assignments 3 & 4",
   "private": "true",
   "scripts": {
-    "start": "brunch watch --server"
+    "start": "node server/server.js"
   },
   "dependencies": {
     "brunch": "~1.7.8",

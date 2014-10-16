@@ -1,6 +1,8 @@
-App.ProjectController = Ember.ObjectController.extend({
+App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
     isPlaying: false,
     isStopped: Ember.computed.not('isPlaying'),
+
+    playingBlock: -1,
 
     actions: {
         play: function() {
@@ -22,10 +24,11 @@ App.ProjectController = Ember.ObjectController.extend({
 
             $.each(blocks, function(index, block) {
                 setTimeout(function() {
-                    console.log(block);
+                    //console.log(block);
+                    controller.set('playingBlock', index);
+
                     switch (block.type) {
                         case 'setX':
-                            console.log(controller.get('stage.character.x'));
                             controller.send('setCharacterX', block.setting);
                             break;
                         case 'setY':
@@ -51,6 +54,7 @@ App.ProjectController = Ember.ObjectController.extend({
         },
         stop: function() {
             Ember.Logger.log('Stopping script.');
+            this.set('playingBlock', -1);
             this.set('isPlaying', false);
         },
         

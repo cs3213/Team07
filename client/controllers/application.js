@@ -1,34 +1,32 @@
 App.ApplicationController = Ember.ObjectController.extend({
-	isLoggedIn: this.send('getSession');,
+	isLoggedIn: false,
 
-	getSession: function(){
-		$.getJSON('/user').done(function(user){
-			controller.set('isLoggedIn', user.authenticated);
-		}).error(function(){
-			Ember.Logger.log('error occur');
-		});
-	}
 
 	init: function () {
 		this._super();
-		var controller = this;
-		$.getJSON('/user').done(function(user){
-			controller.set('isLoggedIn', user.authenticated);
-		}).error(function(){
-			Ember.Logger.log('error occur');
-		});
+		this.send('getSession');
 	},
 
     actions: {
         'login': function() {
         	var controller = this;
-            $.getJSON("/auth/google/",function(result){});
-            this.send('getSession');
+            $.getJSON("/auth/google/",function(result){
+            	controller.send('getSession');
+            });
         },
         'logout': function() {
         	var controller = this;
-            $.getJSON("/logout",function(result){});
-            this.send('getSession');
+            $.getJSON("/logout",function(result){
+            	controller.send('getSession');
+            });
         },
+        'getSession':function(){
+        	var controller = this;
+        	$.getJSON('/user').done(function(user){
+				controller.set('isLoggedIn', user.authenticated);
+			}).error(function(){
+				Ember.Logger.log('error occur');
+			});
+        }
     }
 });

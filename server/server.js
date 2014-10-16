@@ -99,8 +99,9 @@ app.get('/auth/google/callback', function(req, res, next) {
 
 
 app.get('/logout', function(req, res){
+  user = req.user;
 	req.logout();
-  	res.redirect('/');
+  res.json(user)
 });
 
 app.get('/save', function(req, res){

@@ -20,4 +20,6 @@ folderOrder.forEach(function(folder) {
     });
 });
 
+require('transforms/array');
+
 console.log(Ember.TEMPLATES);

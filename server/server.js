@@ -15,17 +15,17 @@ var Project = require(path.join(__dirname, 'models/project'));
 var app = express();
 
 if ('development' === app.get('env')) {
-    mongoose.set('debug', true);
-    mongoose.connect('mongodb://localhost/visualide');
+  mongoose.set('debug', true);
+  mongoose.connect('mongodb://localhost/visualide');
 } else {
-    // Connect to Heroku instance's
-    mongoose.connect('mongodb://heroku_app30448522:9r5he55jkpq1nl9rdtatd1ar2d@ds043170.mongolab.com:43170/heroku_app30448522');
+  // Connect to Heroku instance's
+  mongoose.connect('mongodb://heroku_app30448522:9r5he55jkpq1nl9rdtatd1ar2d@ds043170.mongolab.com:43170/heroku_app30448522');
 }
 
 app.set('title', 'Visual IDE');
 app.set('port', process.env.PORT || 8000);
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(session({secret: 'Super Secret', saveUninitialized: true, resave: true}))
+app.use(session({secret: 'Super Secret', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -43,10 +43,14 @@ passport.use(new GoogleStrategy({
     stateless: true
   },
   function(identifier, profile, done) {
-	process.nextTick(function () {
-		User.createUser(profile.identifier, profile.emails[0].value, profile.displayName);
-		return done(null, profile);
-	});
+    process.nextTick(function () {
+      User.createUser(identifier, profile.emails[0].value, profile.displayName);
+      return done(null, {
+        identifier: identifier,
+        email: profile.emails[0].value,
+        name: profile.displayName
+      });
+  });
   }
 ));
 
@@ -58,63 +62,52 @@ app.get('/app.css', function(req, res) {
     return res.sendFile(__dirname + '../public/app.css');
 });
 
-// @TODO: Declare other API methods here
-
-app.get('/user', function(req, res){
-  console.log(req.user);
-  if(req.isAuthenticated()){
+app.get('/users/:id', function(req, res) {
+  if (req.isAuthenticated()) {
+    // Let's just format what we really need.
+    console.log(req.user);
     res.json({
-      authenticated:true, 
-      user: req.user
+      'user': req.user
     });
-  }
-  else {
-    res.json({
-      authenticated:false, 
-      user: null
-    })
+  } else {
+    res.json({});
   }
 });
 
 app.get('/auth/google', passport.authenticate('google'));
 
-app.get('/auth/google/callback', function(req, res, next) {
-  passport.authenticate('google', function(err, user, info) {
-    if (err) { 
-      return next(err); 
-    }
-    if (!user) { 
-      return res.json({error: 'Error while logging in. Please try again later.'}); 
-    }
-    req.logIn(user, function(err) {
-      if (err) { 
-        return next(err); 
-      }
-      
-      return res.json(user);
-    });
-  })(req, res, next);
+app.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/',
+  failureFlash: true
+}));
+
+app.get('/login', function(req, res) {
+  res.redirect('/auth/google');
 });
 
 
-
-app.get('/logout', function(req, res){
+app.get('/logout', function(req, res) {
   user = req.user;
-	req.logout();
-  res.json(user)
+  req.logout();
+  res.json(1);
 });
 
-app.get('/save', function(req, res){
-	userEmail = req.user.emails[0].value;
+app.get('/projects', function(req, res) {
+  res.json({});
+});
+
+/*app.get('/save', function(req, res){
+  userEmail = req.user.emails[0].value;
   projectId = req.param('projectId');
   projectJson = req.param('projectJson');
   response = Project.save(userEmail, projectId, projectJson);
-	res.json(response);
+  res.json(response);
 });
 
 app.get('/load', function(req, res){
   projectId = req.param('projectId');
-	Project.loadById(projectId, function(project){
+  Project.loadById(projectId, function(project){
     res.json(project);
   });
 });
@@ -124,8 +117,7 @@ app.get('/loadAll', function(req, res){
   Project.loadAllByUser(userEmail, function(projects){
     res.json(projects);
   });
-});
-
+});*/
 
 // This delegates all of the routes we haven't set to Ember.JS
 app.get('*', function(request, response) {

@@ -43,7 +43,21 @@ App.ApplicationController = Ember.ObjectController.extend({
 	        	).done(function(user) {
 	       	  		//TODO show save success
 	       	   }).error(function(){
-	            Ember.Logger.log('error occur');
+	            Ember.Logger.log('error occur in saveProject');
+	        });
+	    },
+
+	    loadProject: function() {
+	        var controller = this;
+	        $.getJSON('/load',
+	        		{
+	        			// TODO: set to real project id
+		        		projectId: "projectId"
+					}
+	        	).done(function(user) {
+	       	  		//TODO load the project
+	       	   }).error(function(){
+	            Ember.Logger.log('error occur in loadProject');
 	        });
 	    }
 	}

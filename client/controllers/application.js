@@ -34,9 +34,9 @@ App.ApplicationController = Ember.ObjectController.extend({
 	        var controller = this;
 	        $.getJSON('/save',
 	        		{
-	        			//not sure how to get the required datas from models
+	        			// not sure how to get the required datas from models
 	        			// testing out the code
-		        		user:"", 
+		        		user: this.get('user'), 
 						projectId: this.get('project.uuid'),
 						projectJson: this.get('project')
 					}

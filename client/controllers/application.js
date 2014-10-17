@@ -30,7 +30,6 @@ App.ApplicationController = Ember.Controller.extend({
                 Ember.Logger.log('Error logging out.');
             });
         },
-
         /*saveProject: function() {
             var controller = this;
             $.getJSON('/save',

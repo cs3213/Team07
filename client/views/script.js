@@ -80,7 +80,7 @@ App.ScriptView = Ember.View.extend({
             // Update model of script changes
             Ember.Logger.log(scripts);
             $('.script-area input, .script-area select').removeAttr('disabled');
-            controller.set('model.script.blocks', scripts);
+            controller.set('model.script', scripts);
         });
 
         this.$('.script-area input, .script-area select').removeAttr('disabled');

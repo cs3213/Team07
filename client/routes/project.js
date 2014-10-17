@@ -9,23 +9,6 @@ App.ProjectRoute = Ember.Route.extend({
                     character: store.createRecord(App.Character)
                 })
             });
-            //store.createRecord('project', {});
-            // if no project is found we create an empty one!
-            /*project = this.store.createRecord('project', {
-                title: 'Untitled Project',
-                stage: {
-                    background: 'school.png',
-                    character: {
-                        costume: 'Warrior.gif',
-                        x: 220,
-                        y: 130,
-                        visible: true
-                    }
-                },
-                script: {
-                    blocks: []
-                }
-            });*/
         }
         return project;
     }

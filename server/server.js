@@ -70,7 +70,7 @@ app.get('/users/:id', function(req, res) {
       'user': req.user
     });
   } else {
-    res.json({});
+    res.json();
   }
 });
 

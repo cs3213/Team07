@@ -19,7 +19,7 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
             this.set('startCostume', this.get('stage.character.costume'));
 
             var controller = this,
-                blocks = this.get('script.blocks'),
+                blocks = this.get('script'),
                 length = Object.keys(blocks).length,
                 blockStack = [],
                 blockLimits = [];

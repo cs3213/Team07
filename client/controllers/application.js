@@ -35,9 +35,11 @@ App.ApplicationController = Ember.ObjectController.extend({
 	        $.getJSON('/save',
 	        		{
 	        			//not sure how to get the required datas from models
+	        			// testing out the code
+
 		        		user:"", 
-						projectId: "",
-						projectJson: ""
+						projectId: this.get('project.uuid'),
+						projectJson: this.get('project')
 					}
 	        	).done(function(user) {
 	       	  		//TODO show save success

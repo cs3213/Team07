@@ -13,11 +13,15 @@ To understand how the project works, read [this tutorial](http://mockra.com/2013
 * Run:
     * `brunch watch --server` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).
     * `brunch build --production` — builds minified project for production
+
+
 * Step-by-step commands to run:
-   * `brunch watch`
-   * run mongo
-   * `node server/server.js`
-   * Go browser address: localhost:8000 
+    * `brunch watch`
+    * run mongo
+    * `node server/server.js`
+    * Go browser address: localhost:8000 
+
+
 * Learn:
     * `public/` dir is fully auto-generated and served by HTTP server.  Write your code in `app/` dir.
     * Place static files you want to be copied from `app/assets/` to `public/`.

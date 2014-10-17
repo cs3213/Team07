@@ -28,6 +28,22 @@ App.ApplicationController = Ember.ObjectController.extend({
 	        }).error(function(){
 	            Ember.Logger.log('error occur');
 	        });
+	    },
+
+	    saveProject: function() {
+	        var controller = this;
+	        $.getJSON('/save',
+	        		{
+	        			//not sure how to get the required datas from models
+		        		user:"", 
+						projectId: "",
+						projectJson: ""
+					}
+	        	).done(function(user) {
+	       	  		//TODO show save success
+	       	   }).error(function(){
+	            Ember.Logger.log('error occur');
+	        });
 	    }
 	}
 });

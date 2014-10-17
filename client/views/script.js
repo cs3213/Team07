@@ -7,7 +7,7 @@ App.ScriptView = Ember.View.extend({
         var id = this.get('controller.playingBlock');
         this.$('.script-area li').removeClass('is-playing');
 
-        if (id) this.$('#' + id).addClass('is-playing');
+        if (id) this.$('.' + id).addClass('is-playing');
     }.observes('controller.playingBlock'),
 
     /**
@@ -21,29 +21,6 @@ App.ScriptView = Ember.View.extend({
 
             receive: function(event, ui) {
                 sortableIn = 1;
-
-                if ($(this).find('div').hasClass('control-block')) {
-                    $(this).find('.control-list').sortable({
-                        placeholder: 'ui-state-highlight',
-                        receive: function(event, ui) {
-                            // Do not accept more loops!
-                            sortableIn = 1;
-                        },
-                        over: function(event, ui) {
-                            sortableIn = 1;
-                        },
-                        out: function(event, ui) {
-                            sortableIn = 0;
-                        },
-                        beforeStop: function(event, ui) {
-                            if (sortableIn === 0) {
-                                ui.item.remove();
-                            }
-                        }
-                    }).on('sortupdate', function(event, ui) {
-                        view.$('ui-sortable').trigger('sortupdate');
-                    });
-                }
             },
             over: function(event, ui) {
                 sortableIn = 1;
@@ -58,7 +35,7 @@ App.ScriptView = Ember.View.extend({
             }
         }).on('sortupdate', function(event, ui) {
             var computeScriptModel = function(list, level) {
-                var scripts = {};
+                var scripts = [];
                 $(list).find('> li').each(function(index) {
                     var block = {
                         'idx': index,
@@ -98,18 +75,10 @@ App.ScriptView = Ember.View.extend({
     },
 
     scriptListView: Ember.CollectionView.extend({
-        content: function() {
-
-        }.property(),
+        contentBinding: 'controller.model.script',
 
         tagName: 'ul',
         classNames: ['ui-sortable', 'script-area', 'block-list', 'clearfix'],
-        itemViewClass: Ember.View.extend({
-            attributeBindings: ['content:data-type', 'setting:data-setting'],
-
-            templateName: function() {
-                return 'blocks/' + this.get('content.type');
-            }
-        })
+        itemViewClass: App.BlockView
     })
 });

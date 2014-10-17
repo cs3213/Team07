@@ -1,6 +1,7 @@
-var ProjectSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecords.Mixin, {
+App.ProjectSerializer = DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
     attrs: {
-        blocks: { embedded: 'always' },
+        author: { serialize: 'id' },
+        script: { embedded: 'always' },
         stage: { embedded: 'always' }
     }
 });

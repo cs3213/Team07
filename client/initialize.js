@@ -20,6 +20,10 @@ folderOrder.forEach(function(folder) {
     });
 });
 
+folderOrder = [ 'transforms', 'serializers' ];
+
 require('transforms/array');
+require('serializers/project');
+require('serializers/stage');
 
 console.log(Ember.TEMPLATES);

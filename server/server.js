@@ -8,6 +8,7 @@ var fs = require('fs');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var bodyParser = require('body-parser');
 var GoogleStrategy = require('passport-google').Strategy;
 var User = require(path.join(__dirname, 'models/user'));
 var Project = require(path.join(__dirname, 'models/project'));
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(session({secret: 'Super Secret', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json());
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -46,7 +48,7 @@ passport.use(new GoogleStrategy({
     process.nextTick(function () {
       User.createUser(identifier, profile.emails[0].value, profile.displayName);
       return done(null, {
-        identifier: identifier,
+        id: profile.emails[0].value,
         email: profile.emails[0].value,
         name: profile.displayName
       });
@@ -62,15 +64,13 @@ app.get('/app.css', function(req, res) {
     return res.sendFile(__dirname + '../public/app.css');
 });
 
-app.get('/users/:id', function(req, res) {
+app.get('/session', function(req, res) {
   if (req.isAuthenticated()) {
-    // Let's just format what we really need.
-    console.log(req.user);
     res.json({
       'user': req.user
     });
   } else {
-    res.json();
+    res.json({});
   }
 });
 
@@ -93,8 +93,34 @@ app.get('/logout', function(req, res) {
   res.json(1);
 });
 
+// For now we have one-to-one between user and project.
 app.get('/projects', function(req, res) {
-  res.json({});
+  if (typeof req.user !== 'undefined') {
+    email = req.user.email;
+    Project.loadAllByUser(email, function(projects) {
+      if (projects.length === 0)
+        res.json();
+      else {
+        var json = projects[0].project;
+        res.json(json);
+      }
+    });
+  } else {
+    res.json();
+  }
+  
+});
+
+app.post('/projects', function(req, res) {
+  if (typeof req.user !== 'undefined') {
+    email = req.user.email;
+    project = req.body;
+    console.log(project);
+    response = Project.save(email, null, project);
+    res.json(response);
+  } else {
+    res.json();
+  }
 });
 
 /*app.get('/save', function(req, res){

@@ -1,21 +1,36 @@
 App.ApplicationController = Ember.Controller.extend({
+    needs: ['project'],
     isLoggedIn: false,
 
     init: function () {
         this._super();
 
         var controller = this;
-        
-        this.store.find('user', 1).then(function(user) {
-            if (typeof user !== 'undefined' &&
-                user.get('id') == 1) {
-                controller.set('loggedInUser', user);
-                controller.set('isLoggedIn', true);
-            }
+        controller.getSession();
+    },
+
+    getSession: function() {
+        var controller = this,
+            store = this.store;
+        $.getJSON('/session').done(function(res) {
+            var user = store.createRecord('user', res.user);
+            controller.set('loggedInUser', user);
+            controller.set('isLoggedIn', true);
+        }).error(function(res) {
+            Ember.Logger.log('Error checking session.');
         });
     },
 
     actions: {
+        newProject: function() {
+            this.get('controllers.project').send('new');
+        },
+        saveProject: function() {
+            this.get('controllers.project').send('save');
+        },
+        loadProject: function() {
+            this.get('controllers.project').send('load');
+        },
         login: function() {
             // Transit current page to login page since it might be possible
             // that we are going out of the domain.
@@ -29,22 +44,6 @@ App.ApplicationController = Ember.Controller.extend({
             }).error(function(res) {
                 Ember.Logger.log('Error logging out.');
             });
-        },
-        /*saveProject: function() {
-            var controller = this;
-            $.getJSON('/save',
-                    {
-                        // not sure how to get the required datas from models
-                        // testing out the code
-                        user: this.get('user'), 
-                        projectId: this.get('project.uuid'),
-                        projectJson: this.get('project')
-                    }
-                ).done(function(user) {
-                    //TODO show save success
-               }).error(function(){
-                Ember.Logger.log('error occur');
-            });
-        }*/
+        }
     }
 });

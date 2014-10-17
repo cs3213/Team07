@@ -1,4 +1,4 @@
-var StageSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecords.Mixin, {
+App.StageSerializer = DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
     attrs: {
         character: { embedded: 'always' }
     }

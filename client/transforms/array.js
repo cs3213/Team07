@@ -1,4 +1,4 @@
-DS.RESTAdapter.registerTransform('array', {
+DS.ArrayTransform = DS.Transform.extend({
   deserialize: function(serialized) {
     return (Ember.typeOf(serialized) == "array") ? serialized : [];
   },
@@ -16,3 +16,5 @@ DS.RESTAdapter.registerTransform('array', {
     }
   }
 });
+
+App.register("transform:array", DS.ArrayTransform);

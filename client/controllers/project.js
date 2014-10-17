@@ -1,5 +1,5 @@
 App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
-    needs: ['background', 'sprite'],
+    needs: ['application', 'background', 'sprite'],
 
     isPlaying: false,
     isStopped: Ember.computed.not('isPlaying'),
@@ -10,6 +10,42 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
     playingBlock: null,
 
     actions: {
+        new: function() {
+            var store = this.store,
+                project = store.createRecord('project', {
+                script: [],
+                stage: store.createRecord('stage', {
+                    character: store.createRecord('character')
+                })
+            });
+            this.set('model', project);
+        },
+        save: function() {
+            var store = this.store,
+                project = this.get('model');
+
+            // set author first...
+            project.set('author', this.get('controllers.application.loggedInUser'));
+
+            project.save();
+        },
+        load: function() {
+            // cheat a bit...
+            var controller = this,
+                store = this.store;
+            $.getJSON('/projects').done(function(res) {
+                var project = store.createRecord('project', {
+                    script: res.project.script,
+                    stage: store.createRecord('stage', {
+                        background: res.project.stage.background,
+                        character: store.createRecord('character', res.project.stage.character)
+                    })
+                });
+                controller.set('model', project);
+            }).error(function(res) {
+                Ember.Logger.log('Error loading project.');
+            });
+        },
         play: function() {
             Ember.Logger.log('Playing script.');
 
@@ -20,7 +56,7 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
 
             var controller = this,
                 blocks = this.get('script'),
-                length = Object.keys(blocks).length,
+                length = Object.keys(blocks).length - 1,
                 blockStack = [],
                 blockLimits = [];
 
@@ -34,13 +70,13 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
                     if (i === 0)
                         b = blockStack[i] >= length ? null : blocks[blockStack[i]];
                     else
-                        b = blockStack[i] >= Object.keys(b.children).length ? null : b.children[blockStack[i]];
+                        b = blockStack[i] >= Object.keys(b.children).length - 1 ? null : b.children[blockStack[i]];
                 }
 
                 if (b === null) {
                     // Reached the end of the level.
                     if (blockStack.length <= 1) {
-                        setTimeout(function() { controller.send('stop'); }, controller.get('delay'));
+                        setTimeout(function() { controller.send('stop'); }, controller.get('delay') / 2);
                     } else {
                         blockStack.pop();
                         // move out to the previous level and continue if limit is reached
@@ -53,7 +89,7 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
                             blockLimits.push(threshold - 1);
                         }
                         
-                        timeout = setTimeout(playBlock, controller.get('delay'));
+                        timeout = setTimeout(playBlock, controller.get('delay') / 2);
                         controller.set('playTimeout', timeout);
                     }
                 } else {

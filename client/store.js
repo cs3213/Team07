@@ -1,5 +1,5 @@
 // fix for: https://github.com/emberjs/website/issues/629
-App.Store = DS.Store.extend({
+App.ApplicationStore = DS.Store.extend({
     adapter: 'DS.CustomRESTAdapter'
 });
 

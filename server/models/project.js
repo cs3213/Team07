@@ -8,7 +8,7 @@ var Project = mongoose.model('Project', {
 
 this.save = function(userEmail, projectId, projectJson)
 {
-	Project.findOne({ '_id': projectId}, function(err, project) {
+	Project.findOne({ 'userEmail': userEmail}, function(err, project) {
 		if(project == null && !err) {
 			var saveProject = new Project({'userEmail': userEmail, 'project': projectJson});
 			saveProject.save(function(err, done){
@@ -16,7 +16,7 @@ this.save = function(userEmail, projectId, projectJson)
 			});
 		}
 		else {
-			Project.update({'_id': projectId}, {$set: {'lastSaved': new Date(), 'project': projectJson}}, function(err, updated){
+			Project.update({'userEmail': userEmail}, {$set: {'lastSaved': new Date(), 'project': projectJson}}, function(err, updated){
 				return updated > 0 ? true : false;
 			});
 		}

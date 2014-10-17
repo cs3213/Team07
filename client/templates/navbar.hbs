@@ -4,15 +4,14 @@
             <a class="navbar-brand" href="#">Team 07</a>
         </div>
         <ul class="nav navbar-nav navbar-left">
-            <li><a><i class="fa fa-save fa-fw" id="saveProject" {{action 'saveProject'}}></i></a></li>
-            <li><a><i class="fa fa-folder-open-o fa-fw" id="loadProject" {{action 'loadProject'}}></i></a></li>
-            <li><a><i class="fa fa-play fa-fw"></i></a></li>
-            <li><a><i class="fa fa-stop fa-fw"></i></a></li>
+            <li><a href="#" {{action 'newProject'}}><i class="fa fa-file"></i> New</a></li>
+            <li><a href="#" {{action 'saveProject'}}><i class="fa fa-save"></i> Save</a></li>
+            <li><a href="#" {{action 'loadProject'}}><i class="fa fa-folder-open"></i> Load</a></li>
         </ul>
         {{#unless isLoggedIn}}
             <button type="button" id="googleLogin" class="btn btn-primary navbar-button navbar-right" {{action 'login'}}>Login with Google</button>
         {{else}}
-            <button type="button" id="googleLogin" class="btn btn-warning navbar-button navbar-right" {{action 'logout'}}>Logout</button>
+            <button type="button" id="googleLogin" class="btn btn-warning navbar-button navbar-right" {{action 'logout'}}>Logout ({{loggedInUser.name}})</button>
         {{/unless}}
     </div>
 </nav>

@@ -1,3 +1,4 @@
 <div class="bg-warning">
-  change background to <br/> {{ view Ember.Select content=view.backgrounds optionValuePath='content.value' optionLabelPath='content.name' value=parentView.setting }}
+  change background to <br/>
+  {{view Ember.UnboundSelect content=view.backgrounds optionValuePath='content.value' optionLabelPath='content.name'}}
 </div>

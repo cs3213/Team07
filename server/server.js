@@ -14,10 +14,11 @@ var User = require(path.join(__dirname, 'models/user'));
 var Project = require(path.join(__dirname, 'models/project'));
 
 var app = express();
-
+var url = 'http://cs3213-visualide.herokuapp.com/'
 if ('development' === app.get('env')) {
   mongoose.set('debug', true);
   mongoose.connect('mongodb://localhost/visualide');
+  url = 'http://localhost:8000/'
 } else {
   // Connect to Heroku instance's
   mongoose.connect('mongodb://heroku_app30448522:9r5he55jkpq1nl9rdtatd1ar2d@ds043170.mongolab.com:43170/heroku_app30448522');
@@ -40,8 +41,8 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(new GoogleStrategy({
-    returnURL: 'http://localhost:8000/auth/google/callback',
-    realm: 'http://localhost:8000/',
+    returnURL: url + 'auth/google/callback',
+    realm: url,
     stateless: true
   },
   function(identifier, profile, done) {

@@ -41,6 +41,8 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(new GoogleStrategy({
+    clientID: '1001375146817-cn7euubcmt5scrnjth34ovql7r289rnv.apps.googleusercontent.com',
+    clientSecret: 'a-Qi9uLWIuLsanUmKFQt8IRy',
     returnURL: url + 'auth/google/callback',
     realm: url,
     stateless: true

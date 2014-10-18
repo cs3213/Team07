@@ -9,7 +9,8 @@
     "font-awesome": "~4.2.0",
     "bootswatch-dist": "3.2.0-lumen",
     "moment": "~2.8.3",
-    "jquery-ui": "~1.11.1"
+    "jquery-ui": "~1.11.1",
+    "ember-addons.bs_for_ember": "~0.7.0"
   },
   "overrides": {}
 }

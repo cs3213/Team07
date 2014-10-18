@@ -18,18 +18,26 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
                     character: store.createRecord('character')
                 })
             });
+            this.send('stop');
             this.set('model', project);
+            Bootstrap.NM.push('A new project has been created.', 'info');
         },
         save: function() {
+            this.send('stop');
             var store = this.store,
                 project = this.get('model');
 
             // set author first...
             project.set('author', this.get('controllers.application.loggedInUser'));
 
-            project.save();
+            project.save().then(function(project) {
+                Bootstrap.NM.push('Project has been successfully saved.', 'success');
+            }, function(project) {
+                Bootstrap.NM.push('There seems to be a problem saving the project. Oops.', 'warning');
+            });
         },
         load: function() {
+            this.send('stop');
             // cheat a bit...
             var controller = this,
                 store = this.store;
@@ -42,8 +50,10 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
                     })
                 });
                 controller.set('model', project);
+                Bootstrap.NM.push('Project has been successfully loaded.', 'success');
             }).error(function(res) {
                 Ember.Logger.log('Error loading project.');
+                Bootstrap.NM.push('There seems to be a problem loading the project. Oops.', 'warning');
             });
         },
         play: function() {

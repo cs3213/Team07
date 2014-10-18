@@ -1,6 +1,7 @@
 App.ApplicationController = Ember.Controller.extend({
     needs: ['project'],
     isLoggedIn: false,
+    isNotLoggedIn: Ember.computed.not('isLoggedIn'),
 
     init: function () {
         this._super();
@@ -13,9 +14,11 @@ App.ApplicationController = Ember.Controller.extend({
         var controller = this,
             store = this.store;
         $.getJSON('/session').done(function(res) {
-            var user = store.createRecord('user', res.user);
-            controller.set('loggedInUser', user);
-            controller.set('isLoggedIn', true);
+            if (typeof res.user !== 'undefined') {
+                var user = store.createRecord('user', res.user);
+                controller.set('loggedInUser', user);
+                controller.set('isLoggedIn', true);
+            }
         }).error(function(res) {
             Ember.Logger.log('Error checking session.');
         });
@@ -41,6 +44,8 @@ App.ApplicationController = Ember.Controller.extend({
             $.getJSON('/logout').done(function(res) {
                 controller.set('loggedInUser', null);
                 controller.set('isLoggedIn', false);
+                // Force refresh
+                window.location = '/';
             }).error(function(res) {
                 Ember.Logger.log('Error logging out.');
             });

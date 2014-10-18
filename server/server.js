@@ -115,11 +115,11 @@ app.post('/projects', function(req, res) {
   if (typeof req.user !== 'undefined') {
     email = req.user.email;
     project = req.body;
-    console.log(project);
-    response = Project.save(email, null, project);
-    res.json(response);
+    response = Project.save(email, null, project, function(saved) {
+      res.json(saved);
+    });
   } else {
-    res.json();
+    res.json(0);
   }
 });
 

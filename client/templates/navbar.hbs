@@ -1,17 +1,19 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Team 07</a>
+            <a class="navbar-brand" href="#">Team 07 &ndash; Visual IDE</a>
         </div>
-        <ul class="nav navbar-nav navbar-left">
-            <li><a href="#" {{action 'newProject'}}><i class="fa fa-file"></i> New</a></li>
-            <li><a href="#" {{action 'saveProject'}}><i class="fa fa-save"></i> Save</a></li>
-            <li><a href="#" {{action 'loadProject'}}><i class="fa fa-folder-open"></i> Load</a></li>
-        </ul>
-        {{#unless isLoggedIn}}
-            <button type="button" id="googleLogin" class="btn btn-primary navbar-button navbar-right" {{action 'login'}}>Login with Google</button>
-        {{else}}
-            <button type="button" id="googleLogin" class="btn btn-warning navbar-button navbar-right" {{action 'logout'}}>Logout ({{loggedInUser.name}})</button>
-        {{/unless}}
+        <div class="nav navbar-nav navbar-left">
+            <button id="new-project-btn" class="btn btn-default navbar-button btn-sm"><i class="fa fa-file" title="New Project"></i> New</button>
+            <button class="btn btn-default navbar-button btn-sm" {{bind-attr disabled=isNotLoggedIn}} {{action 'saveProject'}}><i class="fa fa-save" title="Save Project..."></i> Save</button>
+            <button id="load-project-btn" class="btn btn-default navbar-button btn-sm" {{bind-attr disabled=isNotLoggedIn}}><i class="fa fa-folder-open" title="Load Project..."></i> Load</button>
+        </div>
+        <div class="nav navbar-nav navbar-right">
+            {{#unless isLoggedIn}}
+                <button type="button" id="googleLogin" class="btn btn-info navbar-button btn-sm" {{action 'login'}}>Login with Google</button>
+            {{else}}
+                <button type="button" id="googleLogin" class="btn btn-warning navbar-button btn-sm" {{action 'logout'}}>Logout ({{loggedInUser.name}})</button>
+            {{/unless}}
+        </div>
     </div>
 </nav>

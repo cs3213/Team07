@@ -4,7 +4,8 @@
   "description": "Visual IDE for CS3213 - Software Systems Design Assignments 3 & 4",
   "private": "true",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "postinstall": "brunch build"
   },
   "dependencies": {
     "auto-reload-brunch": ">= 1.0 < 1.8",

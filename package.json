@@ -5,7 +5,7 @@
   "private": "true",
   "scripts": {
     "start": "node server/server.js",
-    "postinstall": "bower install && brunch build --production"
+    "postinstall": "brunch build --production"
   },
   "dependencies": {
     "auto-reload-brunch": ">= 1.0 < 1.8",

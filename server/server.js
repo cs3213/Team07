@@ -9,16 +9,20 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var bodyParser = require('body-parser');
-var GoogleStrategy = require('passport-google').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require(path.join(__dirname, 'models/user'));
 var Project = require(path.join(__dirname, 'models/project'));
 
 var app = express();
-var url = 'http://cs3213-visualide.herokuapp.com/'
+var url = 'http://cs3213-visualide.herokuapp.com/';
+var googleClient = '1001375146817-cn7euubcmt5scrnjth34ovql7r289rnv.apps.googleusercontent.com';
+var googleClientSecret = 'a-Qi9uLWIuLsanUmKFQt8IRy'
 if ('development' === app.get('env')) {
   mongoose.set('debug', true);
   mongoose.connect('mongodb://localhost/visualide');
   url = 'http://localhost:8000/'
+  googleClient = '1001375146817-tiugm569hqrfp26m9jlf69mnl849ueju.apps.googleusercontent.com';
+  googleClientSecret = 'gRLj1aM-eoL2jAvBC3Po3ME0'
 } else {
   // Connect to Heroku instance's
   mongoose.connect('mongodb://heroku_app30448522:9r5he55jkpq1nl9rdtatd1ar2d@ds043170.mongolab.com:43170/heroku_app30448522');
@@ -41,15 +45,13 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(new GoogleStrategy({
-    clientID: '1001375146817-cn7euubcmt5scrnjth34ovql7r289rnv.apps.googleusercontent.com',
-    clientSecret: 'a-Qi9uLWIuLsanUmKFQt8IRy',
-    returnURL: url + 'auth/google/callback',
-    realm: url,
-    stateless: true
+    clientID: googleClient,
+    clientSecret: googleClientSecret,
+    callbackURL: url + 'auth/google/callback'
   },
-  function(identifier, profile, done) {
+  function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      User.createUser(identifier, profile.emails[0].value, profile.displayName);
+      User.createUser(accessToken, profile.emails[0].value, profile.displayName);
       return done(null, {
         id: profile.emails[0].value,
         email: profile.emails[0].value,
@@ -77,7 +79,8 @@ app.get('/session', function(req, res) {
   }
 });
 
-app.get('/auth/google', passport.authenticate('google'));
+app.get('/auth/google', passport.authenticate('google', 
+  { scope: ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'] }));
 
 app.get('/auth/google/callback', passport.authenticate('google', {
   successRedirect: '/',

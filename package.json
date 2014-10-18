@@ -20,7 +20,7 @@
     "moment": "2.4.x",
     "mongoose": "3.8.x",
     "passport": "0.2.x",
-    "passport-google": "0.3.x",
+    "passport-google-oauth": "0.1.x",
     "uglify-js-brunch": ">= 1.0 < 1.8"
   }
 }

@@ -48,6 +48,9 @@
     padding: 1px;
     border: none;
 }
+.block-list select {
+    color: #111;
+}
 .block-list input[disabled] {
     opacity: 0.5;
 }

@@ -162,8 +162,12 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
             clearTimeout(this.get('playTimeout'));
 
             // Reset
-            this.send('selectBackground', this.get('startBackground'));
-            this.send('selectCostume', this.get('startCostume'));
+            if (typeof this.get('startBackground') !== 'undefined' && this.get('startBackground') !== null)
+                this.send('selectBackground', this.get('startBackground'));
+            
+            if (typeof this.get('startCostume') !== 'undefined' && this.get('startCostume') !== null)
+                this.send('selectCostume', this.get('startCostume'));
+
             this.send('setCharacterVisible', true);
         },
         

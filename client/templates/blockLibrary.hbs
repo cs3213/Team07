@@ -4,7 +4,21 @@
 </div>
 <!-- /.panel-heading -->
 <div class="panel-body">
-  {{view 'view.libraryView'}}
+  <ul class="nav nav-tabs block-tabs" role="tablist">
+    <li class="active"><a href="#blocks" role="tab" data-toggle="tab">Blocks</a></li>
+    <li><a href="#conditions" role="tab" data-toggle="tab">Conditions</a></li>
+    <li><a href="#variables" role="tab" data-toggle="tab">Variables</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="blocks">
+      {{view 'view.blockListView'}}
+    </div>
+    <div class="tab-pane" id="conditions">
+      {{view 'view.conditionListView'}}
+    </div>
+    <div class="tab-pane" id="variables">
+    </div>
+  </div>
 </div>
 <!-- /.panel-body -->
 </div>

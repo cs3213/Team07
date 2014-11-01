@@ -46,10 +46,21 @@ App.ScriptView = Ember.View.extend({
                     if ($(this).find('div').hasClass('control-block')) {
                         block.children = computeScriptModel($(this).find('.control-list'), level + 1);
                     }
+                    if ($(this).find('div').hasClass('condition-block')) {
+                        block.condition = computeConditionModel($(this).find('.condition-list'));
+                    }
                     scripts[index] = block;
                     $(this).attr('id', 'block-' + level + '-' + index);
                 });
                 return scripts;
+            };
+
+            var computeConditionModel = function(list) {
+                var condition = $(list).find('> li:first-child');
+                return [{
+                    'idx': 0,
+                    'type': condition.data('type').toString()
+                }];
             };
 
             var scripts = computeScriptModel(this, 0);

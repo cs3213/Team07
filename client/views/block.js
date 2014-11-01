@@ -24,7 +24,7 @@ App.BlockView = Ember.View.extend({
     didInsertElement: function() {
         var view = this;
 
-        console.log(this.get('content'));
+        // console.log(this.get('content'));
 
         this.$().addClass('block-' + this.get('content.level') + '-' + this.get('content.idx'));
 
@@ -33,6 +33,26 @@ App.BlockView = Ember.View.extend({
 
         this.$().find('input').val(this.get('content.setting'));
         this.$().find('select').val(this.get('content.setting'));
+
+        this.$().find('.condition-list').sortable({
+            placeholder: 'ui-state-highlight',
+            receive: function(event, ui) {
+                sortableIn = 1;
+            },
+            over: function(event, ui) {
+                sortableIn = 1;
+            },
+            out: function(event, ui) {
+                sortableIn = 0;
+            },
+            beforeStop: function(event, ui) {
+                if (sortableIn === 0) {
+                    ui.item.remove();
+                }
+            }
+        }).on('sortupdate', function(event, ui) {
+            view.$('ui-sortable').trigger('sortupdate');
+        });
 
         this.$().find('.control-list').sortable({
             placeholder: 'ui-state-highlight',

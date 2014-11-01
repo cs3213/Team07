@@ -33,13 +33,23 @@
     margin: .5em;
     z-index: 10;
 }
-.block-list li div {
+.block-list li > div {
     padding: 4px 12px;
     font-size: 12px;
-    border-radius: 8px;
     color: #fff;
     height: 28px;
     width: 240px;
+    border-radius: 4px;
+    cursor: move;
+}
+.block-list li p {
+    margin: 0;
+}
+.block-list li .variable {
+    border-radius: 12px;
+}
+.block-list li .if-block {
+    min-height: 32px;
 }
 .block-list input {
     font-size: 12px;
@@ -71,10 +81,15 @@
 .script-area .ui-state-highlight {
     width: 240px;
     height: 28px;
-    border-radius: 8px;
     background: #999;
     border: 1px dashed #e5e5e5;
     opacity: 0.8;
+    border-radius: 4px;
+}
+.script-area .condition-list .ui-state-highlight {
+    width: 145px;
+    height: 24px;
+    border-radius: 12px;
 }
 .script-area .is-playing div {
     box-shadow: 0 0 2px 2px #ff9900;
@@ -87,7 +102,7 @@
     min-height: 28px;
     border: 2px dashed #e5e5e5;
     background: #ccc;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 .sprite-library li a {
     display: block;
@@ -101,4 +116,30 @@
 }
 .sprite-library li img {
     margin: 2px 10px;
+}
+.condition-list {
+    float: left;
+    margin: 0 1em;
+    padding: 0;
+    border: 2px dashed #ccc;
+    background: #fff;
+    width: 152px;
+    min-height: 24px;
+    border-radius: 14px;
+    list-style: none;
+}
+.condition-list li {
+    padding: 0;
+    margin: 0;
+}
+.block-tabs {
+    font-size: 90%;
+}
+.block-list li .condition-block {
+    width: 148px;
+    height: 24px;
+    border-radius: 12px;
+}
+.bg-condition {
+    background: #6f5499;
 }

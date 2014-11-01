@@ -47,7 +47,7 @@ App.HideCharacterBlock = App.Block.extend({
     }
 });
 
-App.ChangeCharacterBlock = App.Block.extend({
+App.ChangeBackgroundBlock = App.Block.extend({
     play: function(controller, done) {
         this._super(controller, done);
         controller.send('selectBackground', this.setting);

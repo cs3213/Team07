@@ -1,26 +1,21 @@
 App.BlockLibraryView = Ember.View.extend({
-    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume', 'repeat', 'forever'],
-
     templateName: 'blockLibrary',
     tagName: 'section',
-    
-    /**
-     * Called when the element of the view has been inserted into the DOM.
-     */
-    didInsertElement: function() {
-        this.$().find('li').draggable({
-            helper: 'clone',
-            revert: 'invalid',
-            connectToSortable: '.ui-sortable'
-        });
-        this.$().find('input, select').attr('disabled', 'disabled');
-    },
 
-    willDestroyElement: function() {
-        this.$().find('li').draggable('destroy');
-    },
+    blockListView: Ember.CollectionView.extend({
+        didInsertElement: function() {
+            this.$().find('li').draggable({
+                helper: 'clone',
+                revert: 'invalid',
+                connectToSortable: '.script-area, .control-list'
+            });
+            this.$().find('input, select').attr('disabled', 'disabled');
+        },
 
-    libraryView: Ember.CollectionView.extend({
+        willDestroyElement: function() {
+            this.$().find('li').draggable('destroy');
+        },
+
         defaultValues: {
             'setX': 0,
             'setY': 0,
@@ -32,9 +27,7 @@ App.BlockLibraryView = Ember.View.extend({
             'repeat': 10
         },
 
-        content: function() {
-            return this.get('parentView.defaultBlocks');
-        }.property(),
+        content: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume', 'repeat', 'forever', 'if'],
 
         tagName: 'ul',
         classNames: ['block-library', 'block-list', 'clearfix'],
@@ -71,5 +64,36 @@ App.BlockLibraryView = Ember.View.extend({
                 return this.get('parentView.defaultValues.' + this.get('content'));
             }.property()
         })
-    })
+    }),
+
+    conditionListView: Ember.CollectionView.extend({
+        didInsertElement: function() {
+            this.$().find('li').draggable({
+                helper: 'clone',
+                revert: 'invalid',
+                connectToSortable: '.condition-list'
+            });
+            this.$().find('input, select').attr('disabled', 'disabled');
+        },
+
+        willDestroyElement: function() {
+            this.$().find('li').draggable('destroy');
+        },
+
+        content: ['true'],
+
+        tagName: 'ul',
+        classNames: ['block-list', 'clearfix'],
+        itemViewClass: Ember.View.extend({
+            attributeBindings: ['type:data-type'],
+
+            type: function() {
+                return this.get('content');
+            }.property(),
+
+            templateName: function() {
+                return 'conditions/' + this.get('content');
+            }.property(),
+        })
+    }),
 });

@@ -1,5 +1,5 @@
 App.BlockLibraryView = Ember.View.extend({
-    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume', 'repeat'],
+    defaultBlocks: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume', 'repeat', 'forever'],
 
     templateName: 'blockLibrary',
     tagName: 'section',

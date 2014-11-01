@@ -10,7 +10,7 @@ require('store');
 require('router');
  
 var folderOrder = [ 'routes', 'models', 'views', 'controllers', 'helpers',
-                    'templates', 'components' ];
+                    'templates', 'components', 'scripts' ];
 
 folderOrder.forEach(function(folder) {
     window.require.list().filter(function(module) {

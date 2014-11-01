@@ -67,90 +67,26 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
             var controller = this,
                 blocks = this.get('script'),
                 length = Object.keys(blocks).length - 1,
-                blockStack = [],
-                blockLimits = [];
+                currentIdx = 0;
 
-            function playBlock() {
-                var currentIdx = blockStack[blockStack.length - 1],
-                    timeout;
+            var blockDone = function() {
+                currentIdx++;
+                controller.set('playTimeout', setTimeout(playBlock, controller.get('delay')));
+            };
 
-                // Get the current block.
-                var b = blocks;
-                for (var i = 0; i < blockStack.length; i++) {
-                    if (i === 0)
-                        b = blockStack[i] >= length ? null : blocks[blockStack[i]];
-                    else
-                        b = blockStack[i] >= Object.keys(b.children).length - 1 ? null : b.children[blockStack[i]];
-                }
-
-                if (b === null) {
-                    // Reached the end of the level.
-                    if (blockStack.length <= 1) {
-                        setTimeout(function() { controller.send('stop'); }, controller.get('delay') / 2);
-                    } else {
-                        blockStack.pop();
-                        // move out to the previous level and continue if limit is reached
-                        var threshold = blockLimits.pop();
-                        //console.log(threshold);
-                        if (threshold <= 0) {
-                            currentIdx = blockStack.pop();
-                            blockStack.push(currentIdx + 1);
-                        } else {
-                            blockLimits.push(threshold - 1);
-                        }
-                        
-                        timeout = setTimeout(playBlock, controller.get('delay') / 2);
-                        controller.set('playTimeout', timeout);
-                    }
+            var playBlock = function() {
+                var bData = currentIdx >= length ? null: blocks[currentIdx];
+                if (bData === null) {
+                    setTimeout(function() {
+                        controller.send('stop');
+                    }, controller.get('delay') / 2);
                 } else {
-                    // play the current block
-                    // console.log(b);
-                    
-                    controller.set('playingBlock', 'block-' + b.level + '-' + b.idx);
-
-                    switch (b.type) {
-                        case 'setX':
-                            controller.send('setCharacterX', b.setting);
-                            break;
-                        case 'setY':
-                            controller.send('setCharacterY', b.setting);
-                            break;
-                        case 'move':
-                            controller.send('setCharacterX', parseInt(controller.get('stage.character.x'), 10) + parseInt(b.setting, 10));
-                            break;
-                        case 'showCharacter':
-                            controller.send('setCharacterVisible', true);
-                            break;
-                        case 'hideCharacter':
-                            controller.send('setCharacterVisible', false);
-                            break;
-                        case 'changeBackground':
-                            controller.send('selectBackground', b.setting);
-                            break;
-                        case 'changeCostume':
-                            controller.send('selectCostume', b.setting);
-                            break;
-                    }
-
-                    // if there's another level we push a block in as well
-                    if (typeof b.children !== 'undefined' && Object.keys(b.children).length > 0) {
-                        blockStack.push(0);
-                        if (blockLimits.length !== blockStack.length - 1)
-                            blockLimits.push(parseInt(b.setting - 1, 10));
-                    } else {
-                        // push the next block into the stack
-                        blockStack.pop();
-                        blockStack.push(currentIdx + 1);
-                    }
-
-                    // prep for next block
-                    timeout = setTimeout(playBlock, controller.get('delay'));
-                    controller.set('playTimeout', timeout);
+                    var blockClass = bData.type.charAt(0).toUpperCase() + bData.type.slice(1) + 'Block',
+                        block = App[blockClass].create(bData);
+                    block.play(controller, blockDone);
                 }
-            }
+            };
 
-            // Push the first block into the stack.
-            blockStack.push(0);
             playBlock();
         },
         stop: function() {

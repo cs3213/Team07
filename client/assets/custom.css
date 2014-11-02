@@ -35,7 +35,8 @@
 }
 .block-list li > div {
     padding: 4px 12px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: bold;
     color: #fff;
     height: 28px;
     width: 240px;
@@ -68,6 +69,7 @@
     height: 45px;
 }
 .block-list .ui-draggable-dragging {
+    min-width: 350px;
     opacity: 0.75;
 }
 .script-area-container {
@@ -79,7 +81,7 @@
     min-height: 300px;
 }
 .script-area .ui-state-highlight {
-    width: 240px;
+    width: auto;
     height: 28px;
     background: #999;
     border: 1px dashed #e5e5e5;
@@ -87,7 +89,7 @@
     border-radius: 4px;
 }
 .script-area .condition-list .ui-state-highlight {
-    width: 145px;
+    width: auto;
     height: 24px;
     border-radius: 12px;
 }
@@ -104,6 +106,9 @@
     background: #ccc;
     border-radius: 4px;
 }
+.script-area-container .block-list li > div {
+    width: auto;
+}
 .sprite-library li a {
     display: block;
     width: 64px;
@@ -119,14 +124,17 @@
 }
 .condition-list {
     float: left;
-    margin: 0 1em;
+    margin: 0 .5em;
     padding: 0;
     border: 2px dashed #ccc;
     background: #fff;
-    width: 152px;
+    width: 75%;
     min-height: 24px;
     border-radius: 14px;
     list-style: none;
+}
+.script-area .condition-list {
+    width: 82%;
 }
 .condition-list li {
     padding: 0;
@@ -139,6 +147,16 @@
     width: 148px;
     height: 24px;
     border-radius: 12px;
+}
+.block-list li .block-pre {
+    float: left;
+    margin-top: 3px;
+    min-width: 12px;
+}
+.block-list li .block-pad {
+    float: right;
+    margin: 3px 0 0 3px;
+    min-width: 12px;
 }
 .bg-condition {
     background: #6f5499;

@@ -33,7 +33,7 @@
     margin: .5em;
     z-index: 10;
 }
-.block-list li > div {
+.block {
     padding: 4px 12px;
     font-size: 13px;
     color: #fff;
@@ -42,7 +42,7 @@
     border-radius: 4px;
     cursor: move;
 }
-.block-list li p {
+.block p {
     margin: 0;
 }
 .block-list li .variable {
@@ -51,25 +51,26 @@
 .block-list li .if-block {
     min-height: 32px;
 }
-.block-list input {
+.block input {
     font-size: 12px;
     border-radius: 4px;
     color: #111;
     padding: 1px;
     border: none;
 }
-.block-list select {
+.block select {
     color: #111;
 }
-.block-list input[disabled] {
+.block input[disabled] {
     opacity: 0.5;
 }
-.block-list li .bg-warning {
+.block .bg-warning {
     height: 45px;
 }
-.block-list .ui-draggable-dragging {
-    min-width: 350px;
+.ui-draggable-dragging {
+    width: 240px;
     opacity: 0.75;
+    list-style: none;
 }
 .script-area-container {
     min-height: 320px;
@@ -142,22 +143,25 @@
 .block-tabs {
     font-size: 95%;
 }
-.block-list li .condition-block {
+.condition-block {
     width: auto;
     border-radius: 12px;
 }
-.block-list li .block-pre {
+.block-pre {
     float: left;
     margin-top: 3px;
     min-width: 12px;
 }
-.block-list li .block-pad {
+.block-pad {
     float: right;
     margin: 3px 0 0 3px;
     min-width: 12px;
 }
 .bg-condition {
     background: #6f5499;
+}
+.block-list li .variable-list:first-child {
+    margin-left: 0;
 }
 .variable-list {
     float: left;
@@ -171,12 +175,17 @@
     min-height: 24px;
 }
 .script-area .variable-list {
-    min-width: 42%;
+    float: none;
+    margin: 0;
 }
 .script-area .variable-list .ui-state-highlight {
     width: auto;
     border-radius: 4px;
 }
-.variable-text {
-    margin-top: -2px;
+.block .operator-text {
+    float: left;
+    margin: 0 .1em;
+}
+.script-area .block .operator-text {
+    float: none;
 }

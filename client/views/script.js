@@ -17,24 +17,26 @@ App.ScriptView = Ember.View.extend({
         var controller = this.get('controller');
         var view = this;
         this.$('.ui-sortable').sortable({
+            sortableIn: 0,
             placeholder: 'ui-state-highlight',
 
             receive: function(event, ui) {
-                sortableIn = 1;
+                this.sortableIn = 1;
             },
             over: function(event, ui) {
-                sortableIn = 1;
+                this.sortableIn = 1;
             },
             out: function(event, ui) {
-                sortableIn = 0;
+                this.sortableIn = 0;
             },
             beforeStop: function(event, ui) {
-                if (sortableIn === 0) {
+                if (this.sortableIn === 0) {
                     ui.item.remove();
                 }
             }
         }).on('sortupdate', function(event, ui) {
             var computeScriptModel = function(list, level) {
+                console.log(list);
                 var scripts = [];
                 $(list).find('> li').each(function(index) {
                     var block = {
@@ -44,10 +46,12 @@ App.ScriptView = Ember.View.extend({
                         'level': level
                     };
                     if ($(this).find('div').hasClass('control-block')) {
-                        block.children = computeScriptModel($(this).find('.control-list'), level + 1);
+                        var controlList = $(this).children('div').children('.control-list');
+                        block.children = computeScriptModel(controlList[0], level + 1);
                     }
-                    if ($(this).find('div').hasClass('condition-block')) {
-                        block.condition = computeConditionModel($(this).find('.condition-list'));
+                    if ($(this).find('div').hasClass('if-block')) {
+                        var conditionList = $(this).find('div').children('.condition-list');
+                        block.condition = computeConditionModel(conditionList[0]);
                     }
                     scripts[index] = block;
                     $(this).attr('id', 'block-' + level + '-' + index);
@@ -56,40 +60,51 @@ App.ScriptView = Ember.View.extend({
             };
 
             var computeConditionModel = function(list) {
-                var condition = $(list).find('> li:first-child'),
-                    model = {
-                        'idx': 0,
-                        'type': condition.data('type').toString()
-                    };
+                console.log($(list)[0]);
 
-                if (condition.find('> div .left-variable-list').length > 0) {
-                    model.left = computeVariableModel(condition.find('> div .left-variable-list'), 0);
+                var condition = $(list).find('> li:first-child');
+                if (condition.length === 0 || condition.hasClass('ui-state-highlight'))
+                    return [];
+
+                var model = {
+                    'idx': 0,
+                    'type': condition.data('type').toString()
+                };
+
+                if (condition.find('div').hasClass('left-variable-block')) {
+                    var leftVarList = condition.find('div').children('.left-variable-list');
+                    model.left = computeVariableModel(leftVarList[0]);
                 }
 
-                if (condition.find('> div .right-variable-list').length > 0) {
-                    model.right = computeVariableModel(condition.find('> div .right-variable-list'), 0);
+                if (condition.find('div').hasClass('right-variable-block')) {
+                    var rightVarList = condition.find('div').children('.right-variable-list');
+                    model.right = computeVariableModel(rightVarList[0]);
                 }
 
                 return [model];
             };
 
             var computeVariableModel = function(list, level) {
+                console.log($(list)[0]);
+
                 var variable = $(list).find('> li:first-child');
-                if (variable.length === 0)
+                if (variable.length === 0 || variable.hasClass('ui-state-highlight'))
                     return [];
 
                 var model = {
-                        'idx': 0,
-                        'type': variable.data('type').toString(),
-                        'setting': variable.data('setting')
-                    };
+                    'idx': 0,
+                    'type': variable.data('type').toString(),
+                    'setting': variable.data('setting')
+                };
 
-                if (variable.find('> div .left-variable-list').length > 0) {
-                    model.left = computeVariableModel(variable.find('> div .left-variable-list'), level + 1);
+                if (variable.find('div').hasClass('left-variable-block')) {
+                    var leftVarList = variable.find('div').children('.left-variable-list');
+                    model.left = computeVariableModel(leftVarList[0]);
                 }
 
-                if (variable.find('> div .right-variable-list').length > 0) {
-                    model.right = computeVariableModel(variable.find('> div .right-variable-list'),  level + 1);
+                if (variable.find('div').hasClass('right-variable-block')) {
+                    var rightVarList = variable.find('div').children('.right-variable-list');
+                    model.right = computeVariableModel(rightVarList[0]);
                 }
 
                 return [model];

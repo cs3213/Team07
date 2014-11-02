@@ -7,7 +7,9 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable({
                 helper: 'clone',
                 revert: 'invalid',
-                connectToSortable: '.script-area, .control-list'
+                connectToSortable: '.script-area, .control-list',
+                appendTo: 'body',
+                cursorAt: { left: 0, top: 0 }
             });
             this.$().find('input, select').attr('disabled', 'disabled');
         },
@@ -71,7 +73,9 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable({
                 helper: 'clone',
                 revert: 'invalid',
-                connectToSortable: '.condition-list'
+                connectToSortable: '.condition-list',
+                appendTo: 'body',
+                cursorAt: { left: 0, top: 0 }
             });
             this.$().find('input, select').attr('disabled', 'disabled');
         },
@@ -102,7 +106,9 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable({
                 helper: 'clone',
                 revert: 'invalid',
-                connectToSortable: '.variable-list'
+                connectToSortable: '.variable-list',
+                appendTo: 'body',
+                cursorAt: { left: 0, top: 0 }
             });
             this.$().find('input, select').attr('disabled', 'disabled');
         },

@@ -73,6 +73,27 @@ App.BlockView = Ember.View.extend({
         }).on('sortupdate', function(event, ui) {
             view.$('ui-sortable').trigger('sortupdate');
         });
+
+        this.$().find('.variable-list').sortable({
+            placeholder: 'ui-state-highlight',
+            receive: function(event, ui) {
+                console.log('receieve');
+                sortableIn = 1;
+            },
+            over: function(event, ui) {
+                sortableIn = 1;
+            },
+            out: function(event, ui) {
+                sortableIn = 0;
+            },
+            beforeStop: function(event, ui) {
+                if (sortableIn === 0) {
+                    ui.item.remove();
+                }
+            }
+        }).on('sortupdate', function(event, ui) {
+            view.$('ui-sortable').trigger('sortupdate');
+        });
     },
 
     templateName: function() {

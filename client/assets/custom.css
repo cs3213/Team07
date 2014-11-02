@@ -36,10 +36,9 @@
 .block-list li > div {
     padding: 4px 12px;
     font-size: 13px;
-    font-weight: bold;
     color: #fff;
-    height: 28px;
-    width: 240px;
+    min-height: 28px;
+    width: auto;
     border-radius: 4px;
     cursor: move;
 }
@@ -141,11 +140,10 @@
     margin: 0;
 }
 .block-tabs {
-    font-size: 90%;
+    font-size: 95%;
 }
 .block-list li .condition-block {
-    width: 148px;
-    height: 24px;
+    width: auto;
     border-radius: 12px;
 }
 .block-list li .block-pre {
@@ -160,4 +158,25 @@
 }
 .bg-condition {
     background: #6f5499;
+}
+.variable-list {
+    float: left;
+    list-style: none;
+    margin: 0 .5em;
+    padding: 0;
+    border: 2px dashed #333;
+    border-radius: 4px;
+    background: #666;
+    min-width: 24px;
+    min-height: 24px;
+}
+.script-area .variable-list {
+    min-width: 42%;
+}
+.script-area .variable-list .ui-state-highlight {
+    width: auto;
+    border-radius: 4px;
+}
+.variable-text {
+    margin-top: -2px;
 }

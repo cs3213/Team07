@@ -80,7 +80,7 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable('destroy');
         },
 
-        content: ['true'],
+        content: ['true', 'equal', 'greaterThan', 'lessThan'],
 
         tagName: 'ul',
         classNames: ['block-list', 'clearfix'],
@@ -96,4 +96,35 @@ App.BlockLibraryView = Ember.View.extend({
             }.property(),
         })
     }),
+
+    variableListView: Ember.CollectionView.extend({
+        didInsertElement: function() {
+            this.$().find('li').draggable({
+                helper: 'clone',
+                revert: 'invalid',
+                connectToSortable: '.variable-list'
+            });
+            this.$().find('input, select').attr('disabled', 'disabled');
+        },
+
+        willDestroyElement: function() {
+            this.$().find('li').draggable('destroy');
+        },
+
+        content: ['spriteX', 'spriteY', 'mouseX', 'mouseY', 'stageWidth', 'stageHeight', 'plus', 'substract', 'multiply', 'divide', 'mod'],
+
+        tagName: 'ul',
+        classNames: ['block-list', 'clearfix'],
+        itemViewClass: Ember.View.extend({
+            attributeBindings: ['type:data-type'],
+
+            type: function() {
+                return this.get('content');
+            }.property(),
+
+            templateName: function() {
+                return 'variables/' + this.get('content');
+            }.property(),
+        })
+    })
 });

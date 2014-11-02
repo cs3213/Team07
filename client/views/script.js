@@ -56,11 +56,43 @@ App.ScriptView = Ember.View.extend({
             };
 
             var computeConditionModel = function(list) {
-                var condition = $(list).find('> li:first-child');
-                return [{
-                    'idx': 0,
-                    'type': condition.data('type').toString()
-                }];
+                var condition = $(list).find('> li:first-child'),
+                    model = {
+                        'idx': 0,
+                        'type': condition.data('type').toString()
+                    };
+
+                if (condition.find('> div .left-variable-list').length > 0) {
+                    model.left = computeVariableModel(condition.find('> div .left-variable-list'), 0);
+                }
+
+                if (condition.find('> div .right-variable-list').length > 0) {
+                    model.right = computeVariableModel(condition.find('> div .right-variable-list'), 0);
+                }
+
+                return [model];
+            };
+
+            var computeVariableModel = function(list, level) {
+                var variable = $(list).find('> li:first-child');
+                if (variable.length === 0)
+                    return [];
+
+                var model = {
+                        'idx': 0,
+                        'type': variable.data('type').toString(),
+                        'setting': variable.data('setting')
+                    };
+
+                if (variable.find('> div .left-variable-list').length > 0) {
+                    model.left = computeVariableModel(variable.find('> div .left-variable-list'), level + 1);
+                }
+
+                if (variable.find('> div .right-variable-list').length > 0) {
+                    model.right = computeVariableModel(variable.find('> div .right-variable-list'),  level + 1);
+                }
+
+                return [model];
             };
 
             var scripts = computeScriptModel(this, 0);

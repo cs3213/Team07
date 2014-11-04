@@ -117,7 +117,7 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable('destroy');
         },
 
-        content: ['spriteX', 'spriteY', 'mouseX', 'mouseY', 'stageWidth', 'stageHeight', 'plus', 'substract', 'multiply', 'divide', 'mod'],
+        content: ['spriteX', 'spriteY', 'mouseX', 'mouseY', 'stageWidth', 'stageHeight', 'plus', 'substract', 'multiply', 'divide', 'mod', 'random'],
 
         tagName: 'ul',
         classNames: ['block-list', 'clearfix'],

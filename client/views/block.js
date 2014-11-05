@@ -24,8 +24,6 @@ App.BlockView = Ember.View.extend({
     didInsertElement: function() {
         var view = this;
 
-        // console.log(this.get('content'));
-
         this.$().addClass('block-' + this.get('content.level') + '-' + this.get('content.idx'));
 
         this.$().data('type', this.get('content.type'));
@@ -77,7 +75,6 @@ App.BlockView = Ember.View.extend({
         this.$().find('.variable-list').sortable({
             placeholder: 'ui-state-highlight',
             receive: function(event, ui) {
-                console.log('receieve');
                 sortableIn = 1;
             },
             over: function(event, ui) {

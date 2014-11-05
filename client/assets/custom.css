@@ -152,6 +152,15 @@
     margin-top: 3px;
     min-width: 12px;
 }
+.block .block-text {
+    float: left;
+    margin: 6px 3px;
+}
+.script-area .block .block-text {
+    float: none;
+    margin: 0 3px 3px;
+    padding: 0;
+}
 .block-pad {
     float: right;
     margin: 3px 0 0 3px;
@@ -172,7 +181,10 @@
     border-radius: 4px;
     background: #666;
     min-width: 24px;
-    min-height: 24px;
+    min-height: 28px;
+}
+.variable-list li {
+    margin: 0;
 }
 .script-area .variable-list {
     float: none;
@@ -185,6 +197,15 @@
 .block .operator-text {
     float: left;
     margin: 0 .1em;
+}
+.num-variable-list {
+    width: 50%;
+}
+.script-area .num-variable-list {
+    width: 100%;
+}
+.num-variable-list input {
+    width: 90%;
 }
 .script-area .block .operator-text {
     float: none;

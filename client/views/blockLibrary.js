@@ -4,7 +4,7 @@ App.BlockLibraryView = Ember.View.extend({
 
     blockListView: Ember.CollectionView.extend({
         didInsertElement: function() {
-            this.$().find('li').draggable({
+            this.$().find('> li').draggable({
                 helper: 'clone',
                 revert: 'invalid',
                 connectToSortable: '.script-area, .control-list',
@@ -18,23 +18,22 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable('destroy');
         },
 
-        defaultValues: {
-            'setX': 0,
-            'setY': 0,
-            'move': 10,
-            'showCharacter': 0,
-            'hideCharacter': 0,
-            'changeBackground': 'geometry2.png',
-            'changeCostume': 'Bard.gif',
-            'repeat': 10
-        },
-
-        content: ['setX', 'setY', 'move', 'showCharacter', 'hideCharacter', 'changeBackground', 'changeCostume', 'repeat', 'forever', 'if'],
+        content: [
+            { type: 'setX', numVariable: [{ type: 'numberInput', setting: 0 }] },
+            { type: 'setY', numVariable: [{ type: 'numberInput', setting: 0 }] },
+            { type: 'move', numVariable: [{ type: 'numberInput', setting: 10 }] },
+            { type: 'showCharacter' },
+            { type: 'hideCharacter' },
+            { type: 'changeBackground', setting: 'geometry2.png' },
+            { type: 'changeCostume', setting: 'Bard.gif' },
+            { type: 'repeat', numVariable: [{ type: 'numberInput', setting: 10 }]},
+            { type: 'if' }
+        ],
 
         tagName: 'ul',
         classNames: ['block-library', 'block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
-            attributeBindings: ['content:data-type', 'setting:data-setting'],
+            attributeBindings: ['type:data-type', 'setting:data-setting'],
 
             // @TODO: Move this to server call
             backgrounds: [
@@ -58,12 +57,16 @@ App.BlockLibraryView = Ember.View.extend({
             ],
 
             templateName: function() {
-                return 'blocks/' + this.get('content');
+                return 'blocks/' + this.get('content.type');
+            }.property(),
+
+            type: function() {
+                return this.get('content.type');
             }.property(),
 
             // Create default settings for specific blocks
             setting: function() {
-                return this.get('parentView.defaultValues.' + this.get('content'));
+                return this.get('content.setting');
             }.property()
         })
     }),
@@ -117,12 +120,12 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable('destroy');
         },
 
-        content: ['spriteX', 'spriteY', 'mouseX', 'mouseY', 'stageWidth', 'stageHeight', 'plus', 'substract', 'multiply', 'divide', 'mod', 'random'],
+        content: ['numberInput', 'spriteX', 'spriteY', 'mouseX', 'mouseY', 'stageWidth', 'stageHeight', 'plus', 'substract', 'multiply', 'divide', 'mod', 'random'],
 
         tagName: 'ul',
         classNames: ['block-list', 'clearfix'],
         itemViewClass: Ember.View.extend({
-            attributeBindings: ['type:data-type'],
+            attributeBindings: ['type:data-type', 'setting:data-setting'],
 
             type: function() {
                 return this.get('content');

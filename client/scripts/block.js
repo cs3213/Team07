@@ -4,13 +4,22 @@
 App.Block = Ember.Object.extend({
     play: function(controller, done) {
         controller.set('playingBlock', 'block-' + this.level + '-' + this.idx);
-    }
+    },
+    numValue: function(controller, numData) {
+        if (typeof numData === 'undefined')
+            return 0;
+
+        var numClass = numData.type.charAt(0).toUpperCase() + numData.type.slice(1) + 'Variable',
+            num = App[numClass].create(numData);
+
+        return num.value(controller);
+    },
 });
 
 App.SetXBlock = App.Block.extend({
     play: function(controller, done) {
         this._super(controller, done);
-        controller.send('setCharacterX', this.setting);
+        controller.send('setCharacterX', this.numValue(controller, this.numVariable[0]));
         done();
     }
 });
@@ -18,7 +27,7 @@ App.SetXBlock = App.Block.extend({
 App.SetYBlock = App.Block.extend({
     play: function(controller, done) {
         this._super(controller, done);
-        controller.send('setCharacterY', this.setting);
+        controller.send('setCharacterY', this.numValue(controller, this.numVariable[0]));
         done();
     }
 });
@@ -26,7 +35,7 @@ App.SetYBlock = App.Block.extend({
 App.MoveBlock = App.Block.extend({
     play: function(controller, done) {
         this._super(controller, done);
-        controller.send('setCharacterX', parseInt(controller.get('stage.character.x'), 10) + parseInt(this.setting, 10));
+        controller.send('setCharacterX', parseInt(controller.get('stage.character.x'), 10) + parseInt(this.numValue(controller, this.numVariable[0]), 10));
         done();
     }
 });

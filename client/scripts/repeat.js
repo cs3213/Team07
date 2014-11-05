@@ -16,7 +16,7 @@ App.RepeatBlock = App.Block.extend({
             var bData = currentIdx >= length ? null: blocks[currentIdx];
             if (bData === null) {
                 currentIter++;
-                if (currentIter >= $this.setting) {
+                if (currentIter >= $this.numValue(controller, $this.numVariable[0])) {
                     done();
                 } else {
                     currentIdx = 0;

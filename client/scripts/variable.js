@@ -45,11 +45,20 @@ App.StageHeightVariable = App.Variable.extend({
     }
 });
 
+App.NumberInputVariable = App.Variable.extend({
+    value: function(controller) {
+        if (typeof this.setting === 'undefined')
+            return 0;
+        else
+            return parseInt(this.setting, 10);
+    }
+});
+
 App.RandomVariable = App.Variable.extend({
     value: function(controller) {
         lower = 1;
         upper = 10;
-        randomNumber = parseInt((Math.random() * (upper - lower)) + lower);
+        randomNumber = parseInt((Math.random() * (upper - lower)) + lower, 10);
         console.log(randomNumber);
         return randomNumber;
     }

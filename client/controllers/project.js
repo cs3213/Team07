@@ -124,6 +124,6 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
         },
         setCharacterVisible: function(visible) {
             this.set('stage.character.visible', visible);
-        }
+        },
     }
 });

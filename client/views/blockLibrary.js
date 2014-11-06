@@ -28,6 +28,7 @@ App.BlockLibraryView = Ember.View.extend({
             { type: 'changeCostume', setting: 'Bard.gif' },
             { type: 'repeat', numVariable: [{ type: 'numberInput', setting: 10 }]},
             { type: 'if' },
+            { type: 'forever' },
             { type: 'whenSpriteClicked' },
         ],
 

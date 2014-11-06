@@ -40,6 +40,11 @@ App.StageView = Ember.View.extend({
                     controller.set('stage.character.y', character.y());
                 });
 
+                character.on('click', function(event) {
+                    if (controller.get('isPlaying'))
+                        controller.trigger('spriteClicked');
+                });
+
                 layer.add(character);
                 stage.add(layer);
 

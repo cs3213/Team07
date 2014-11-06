@@ -10,6 +10,12 @@ App.StageView = Ember.View.extend({
      */
     didInsertElement: function() {
         var controller = this.get('controller');
+
+        this.$('#stage-canvas').on('mousemove', function(evt) {
+            controller.set('mouseX', evt.clientX);
+            controller.set('mouseY', evt.clientY);
+        });
+
         this.renderCanvas();
     },
 
@@ -20,7 +26,13 @@ App.StageView = Ember.View.extend({
         this.renderCanvas();
     }.observes('controller.stage.character.costume', 'controller.stage.character.x', 'controller.stage.character.y', 'controller.stage.character.visible'),
 
+    mouseX: function() {
+        return this.get('controller.mouseX');
+    }.property('controller.mouseX'),
 
+    mouseY: function() {
+        return this.get('controller.mouseY');
+    }.property('controller.mouseY'),
 
     backgroundStyle: function() {
         return 'background: url(background/' + this.get('controller.stage.background') + ') repeat center center';

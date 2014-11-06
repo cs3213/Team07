@@ -9,15 +9,13 @@ App.Variable = Ember.Object.extend({
 
 App.MouseXVariable = App.Variable.extend({
     value: function(controller) {
-        // would need to trigger event first...
-        return 0;
+        return controller.get('mouseX');
     }
 });
 
 App.MouseYVariable = App.Variable.extend({
     value: function(controller) {
-        // would need to trigger event first...
-        return 0;
+        return controller.get('mouseY');
     }
 });
 

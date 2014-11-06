@@ -9,6 +9,9 @@ App.ProjectController = Ember.ObjectController.extend(Ember.Evented, {
     playTimeout: null,
     playingBlock: null,
 
+    mouseX: 0,
+    mouseY: 0,
+
     actions: {
         new: function() {
             var store = this.store,

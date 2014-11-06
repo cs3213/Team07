@@ -27,7 +27,8 @@ App.BlockLibraryView = Ember.View.extend({
             { type: 'changeBackground', setting: 'geometry2.png' },
             { type: 'changeCostume', setting: 'Bard.gif' },
             { type: 'repeat', numVariable: [{ type: 'numberInput', setting: 10 }]},
-            { type: 'if' }
+            { type: 'if' },
+            { type: 'whenSpriteClicked' },
         ],
 
         tagName: 'ul',

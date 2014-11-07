@@ -198,13 +198,16 @@
     float: left;
     margin: 0 .1em;
 }
-.num-variable-list {
-    width: 50%;
+.num-variable-list, .block .variable-block {
+    width: 64px;
 }
 .script-area .num-variable-list {
     width: 100%;
 }
-.num-variable-list input {
+.block .variable-block {
+    padding: 4px;
+}
+.variable-block input {
     width: 90%;
 }
 .script-area .block .operator-text {

@@ -1,6 +1,6 @@
-<div class="block bg-danger variable-block">
-    generate random between 
-    <input type="text" size="3" maxlength="3" placeholder="0" value="{{unbound setting}}"/> 
-    to
-    <input type="text" size="3" maxlength="3" placeholder="0" value="{{unbound setting}}"/> 
+<div class="block bg-danger variable-block left-variable-block right-variable-block clearfix">
+    <p class="block-text">generate random from</p>
+    {{view App.LeftVariableView}}
+    <p class="block-text">to</p>
+    {{view App.RightVariableView}}
 </div>

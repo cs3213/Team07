@@ -122,7 +122,21 @@ App.BlockLibraryView = Ember.View.extend({
             this.$().find('li').draggable('destroy');
         },
 
-        content: ['numberInput', 'spriteX', 'spriteY', 'mouseX', 'mouseY', 'stageWidth', 'stageHeight', 'plus', 'substract', 'multiply', 'divide', 'mod', 'random'],
+        content: [
+            { type: 'numberInput' },
+            { type: 'spriteX' },
+            { type: 'spriteY' },
+            { type: 'mouseX' },
+            { type: 'mouseY' },
+            { type: 'stageWidth' },
+            { type: 'stageHeight' },
+            { type: 'plus' },
+            { type: 'substract' },
+            { type: 'multiply' },
+            { type: 'divide' },
+            { type: 'mod' },
+            { type: 'random', left: [{ type: 'numberInput', setting: 0 }], right: [{ type: 'numberInput', setting: 100 }] },
+        ],
 
         tagName: 'ul',
         classNames: ['block-list', 'clearfix'],
@@ -130,11 +144,15 @@ App.BlockLibraryView = Ember.View.extend({
             attributeBindings: ['type:data-type', 'setting:data-setting'],
 
             type: function() {
-                return this.get('content');
+                return this.get('content.type');
+            }.property(),
+
+            setting: function() {
+                return this.get('content.setting');
             }.property(),
 
             templateName: function() {
-                return 'variables/' + this.get('content');
+                return 'variables/' + this.get('content.type');
             }.property(),
         })
     })

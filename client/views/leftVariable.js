@@ -15,6 +15,8 @@ App.LeftVariableView = Ember.CollectionView.extend({
             this.$().data('type', this.get('content.type'));
             this.$().data('setting', this.get('content.setting'));
 
+            this.$().attr('data-type', this.get('content.type'));
+
             this.$().find('input').val(this.get('content.setting'));
             this.$().find('select').val(this.get('content.setting'));
         },

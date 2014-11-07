@@ -54,8 +54,23 @@ App.NumberInputVariable = App.Variable.extend({
 
 App.RandomVariable = App.Variable.extend({
     value: function(controller) {
-        lower = 1;
-        upper = 10;
+        if (typeof this.left === 'undefined' || typeof this.right === 'undefined')
+            return false;
+
+        var leftData = this.left.get(0);
+        var rightData = this.right.get(0);
+
+        if (typeof leftData === 'undefined' || typeof rightData === 'undefined')
+            return false;
+
+        var leftClass = leftData.type.charAt(0).toUpperCase() + leftData.type.slice(1) + 'Variable',
+            left = App[leftClass].create(leftData),
+            rightClass = rightData.type.charAt(0).toUpperCase() + rightData.type.slice(1) + 'Variable',
+            right = App[rightClass].create(rightData);
+
+        var lower = left.value(controller),
+            upper = right.value(controller);
+
         randomNumber = parseInt((Math.random() * (upper - lower)) + lower, 10);
         console.log(randomNumber);
         return randomNumber;

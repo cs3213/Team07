@@ -14,10 +14,17 @@ App.RepeatBlock = App.Block.extend({
 
         var playBlock = function() {
             var bData = currentIdx >= length ? null: blocks[currentIdx];
+
+            if ($this.numValue(controller, $this.numVariable[0]) === 0) {
+                done();
+                return;
+            }
+
             if (bData === null) {
                 currentIter++;
                 if (currentIter >= $this.numValue(controller, $this.numVariable[0])) {
                     done();
+                    return;
                 } else {
                     currentIdx = 0;
                     controller.set('playTimeout', setTimeout(playBlock, controller.get('delay')));
